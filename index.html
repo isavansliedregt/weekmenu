@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekmenu — Isa, Esmée, Jaco & Jacoline</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #1D9E75;
+  --green-light: #E1F5EE;
+  --green-dark: #0F6E56;
+  --amber: #BA7517;
+  --amber-light: #FAEEDA;
+  --red-light: #FCEBEB;
+  --red: #A32D2D;
+  --bg: #F7F5F0;
+  --surface: #FFFFFF;
+  --border: rgba(0,0,0,0.08);
+  --border-strong: rgba(0,0,0,0.15);
+  --text: #1A1A18;
+  --text-muted: #6B6B62;
+  --text-faint: #A0A098;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+.app {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 0 16px 80px;
+}
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* Header */
+.header {
+  padding: 32px 0 20px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 26px;
+  color: var(--text);
+  line-height: 1;
+}
+.logo small {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+.week-pill {
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  padding: 16px 18px;
+  margin-bottom: 10px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-decoration: none;
+}
+.btn:hover { background: var(--bg); }
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--text); color: #fff; border-color: var(--text); }
+.btn-primary:hover { background: #333; }
+.btn-green { background: var(--green); color: #fff; border-color: var(--green); }
+.btn-green:hover { background: var(--green-dark); }
+.btn-sm { padding: 6px 12px; font-size: 12px; }
+.btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+
+/* Profile login */
+.profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0; }
+.profile-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: var(--shadow);
+}
+.profile-card:hover { border-color: var(--green); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+.profile-card.done { border-color: var(--green); background: var(--green-light); }
+.avatar {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 500;
+  margin: 0 auto 10px;
+}
+.profile-name { font-size: 15px; font-weight: 500; }
+.profile-status { font-size: 11px; margin-top: 3px; color: var(--text-faint); }
+.profile-card.done .profile-status { color: var(--green); }
+
+/* Deadline banner */
+.deadline-banner {
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.deadline-banner.ok { background: var(--green-light); color: var(--green-dark); }
+.deadline-banner.warn { background: var(--amber-light); color: var(--amber); }
+.deadline-banner.urgent { background: var(--red-light); color: var(--red); }
+
+/* Progress */
+.progress-wrap { margin-bottom: 14px; }
+.progress-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.progress-bar { height: 5px; background: var(--bg); border-radius: 5px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--green); border-radius: 5px; transition: width 0.5s cubic-bezier(.4,0,.2,1); }
+.chips { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 8px; }
+.chip { font-size: 11px; padding: 3px 10px; border-radius: 20px; background: var(--bg); color: var(--text-muted); }
+.chip.ok { background: var(--green-light); color: var(--green-dark); }
+
+/* Day cards */
+.day-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  box-shadow: var(--shadow);
+  transition: border-color 0.2s;
+}
+.day-card.avg { border-left: 3px solid var(--green); }
+.day-header { display: flex; align-items: center; gap: 10px; }
+.day-label { font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--text-faint); width: 66px; flex-shrink: 0; }
+.day-meal { font-size: 15px; font-weight: 500; flex: 1; }
+.cat-badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; flex-shrink: 0; }
+.cat-Aardappelen { background: #FAEEDA; color: #633806; }
+.cat-Pasta { background: #EEEDFE; color: #3C3489; }
+.cat-Rijst { background: #EAF3DE; color: #27500A; }
+.cat-Noodles { background: #E1F5EE; color: #085041; }
+.cat-Overig { background: #F1EFE8; color: #444441; }
+.nutri-row { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 7px; }
+.nutri-tag { font-size: 10px; padding: 2px 7px; border-radius: 20px; background: var(--bg); color: var(--text-muted); }
+.nutri-tag.vis { background: #E6F1FB; color: #185FA5; }
+.nutri-tag.vega { background: #EAF3DE; color: #3B6D11; }
+.nutri-tag.seizoen { background: #FAEEDA; color: #854F0B; }
+.edit-btn { background: none; border: none; cursor: pointer; color: var(--text-faint); font-size: 11px; font-family: 'DM Sans',sans-serif; padding: 3px 8px; border-radius: 6px; }
+.edit-btn:hover { background: var(--bg); color: var(--text); }
+
+/* Swap */
+.swap-area { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+.swap-area.open { display: block; }
+.swap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(126px,1fr)); gap: 5px; margin-top: 8px; }
+.swap-opt { padding: 7px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg); font-size: 12px; cursor: pointer; text-align: center; font-family: 'DM Sans',sans-serif; transition: border-color 0.15s; }
+.swap-opt:hover { border-color: var(--green); background: var(--green-light); }
+
+/* Boodschappen */
+.sec-label { font-size: 10px; font-weight: 500; letter-spacing: .09em; text-transform: uppercase; color: var(--text-faint); margin: 18px 0 8px; }
+.boodschap-item { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+.boodschap-item:last-child { border-bottom: none; }
+.boodschap-item.done .item-name { text-decoration: line-through; color: var(--text-faint); }
+.check-c {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-strong);
+  cursor: pointer; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.check-c.on { background: var(--green); border-color: var(--green); }
+.check-c.on::after { content:''; width:5px; height:9px; border:2px solid #fff; border-left:none; border-top:none; transform:rotate(45deg) translateY(-1px); display:block; }
+.item-name { font-size: 14px; flex: 1; }
+.item-qty { font-size: 12px; color: var(--text-muted); }
+.price-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.price-low { background: var(--green); }
+.price-mid { background: var(--amber); }
+.price-high { background: #D85A30; }
+
+/* Supermarkt links */
+.super-links { display: flex; gap: 8px; margin-top: 14px; }
+.super-link {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.15s;
+}
+.super-link:hover { border-color: var(--green); background: var(--green-light); }
+.super-logo { font-size: 16px; }
+
+/* AI thinking */
+.ai-row { display: flex; align-items: center; gap: 12px; padding: 20px 0; color: var(--text-muted); font-size: 14px; }
+.spinner { width: 20px; height: 20px; border: 2px solid var(--border-strong); border-top-color: var(--green); border-radius: 50%; animation: spin .7s linear infinite; flex-shrink: 0; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Toast */
+#toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: var(--text); color: #fff;
+  padding: 11px 22px; border-radius: 20px;
+  font-size: 13px; display: none; z-index: 9999;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+/* Topbar */
+.topbar { display: flex; align-items: center; justify-content: space-between; padding: 24px 0 16px; }
+
+/* Legend */
+.legend { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); }
+
+/* Responsive */
+@media (max-width: 400px) {
+  .profile-grid { grid-template-columns: 1fr 1fr; }
+  .day-label { width: 54px; }
+}
+
+/* Fade in */
+.screen.active { animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- LOGIN -->
+<div id="s-login" class="screen active">
+  <div class="header">
+    <div class="logo">Weekmenu<small>Isa · Esmée · Jaco · Jacoline</small></div>
+  </div>
+  <div id="deadline-login"></div>
+  <div class="profile-grid" id="profile-grid"></div>
+</div>
+
+<!-- MENU -->
+<div id="s-menu" class="screen">
+  <div class="topbar">
+    <div class="logo" style="font-size:22px;">Weekmenu<small id="user-sub" style="font-size:12px;"></small></div>
+    <div style="display:flex;gap:6px;align-items:center;">
+      <span class="week-pill" id="week-badge"></span>
+      <button class="btn btn-sm" onclick="showScreen('s-login')">Wissel</button>
+    </div>
+  </div>
+  <div id="deadline-menu"></div>
+  <div id="ai-thinking" class="ai-row" style="display:none;">
+    <div class="spinner"></div><span id="ai-msg">AI stelt menu samen...</span>
+  </div>
+  <div id="menu-body">
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span style="font-size:12px;color:var(--text-muted);">Akkoord <span id="akk-count">0</span>/4</span>
+        <span style="font-size:12px;color:var(--text-faint);" id="akk-label"></span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+      <div class="chips" id="akk-chips"></div>
+    </div>
+    <div id="days-list"></div>
+    <div class="btn-row">
+      <button class="btn btn-green" id="btn-akk" onclick="giveAkkoord()">Akkoord met dit menu</button>
+      <button class="btn" onclick="generateMenu()">Nieuw menu genereren</button>
+      <button class="btn btn-primary" id="btn-boodschappen" style="display:none;" onclick="showScreen('s-boodschappen')">Boodschappenlijst →</button>
+    </div>
+  </div>
+</div>
+
+<!-- BOODSCHAPPEN -->
+<div id="s-boodschappen" class="screen">
+  <div class="topbar">
+    <div class="logo" style="font-size:22px;">Boodschappen</div>
+    <button class="btn btn-sm" onclick="showScreen('s-menu')">← Menu</button>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><div class="price-dot price-low"></div> Goedkoop</div>
+    <div class="legend-item"><div class="price-dot price-mid"></div> Middel</div>
+    <div class="legend-item"><div class="price-dot price-high"></div> Duurder</div>
+  </div>
+  <div id="boodschappen-list"></div>
+  <div class="super-links">
+    <a class="super-link" href="https://www.ah.nl/bonus" target="_blank"><span class="super-logo">🛒</span> AH Aanbiedingen</a>
+    <a class="super-link" href="https://www.jumbo.com/aanbiedingen" target="_blank"><span class="super-logo">🛒</span> Jumbo Aanbiedingen</a>
+  </div>
+  <div class="btn-row" style="margin-top:14px;">
+    <button class="btn btn-primary" onclick="copyWA()">Kopieer voor WhatsApp</button>
+  </div>
+</div>
+
+</div>
+<div id="toast"></div>
+
+<script>
+const GERECHTEN = [
+  {id:1,naam:'Krootjes',cat:'Aardappelen',ing:[{n:'Aardappelen',qty:'1 kg',prijs:'low'},{n:'Bieten (gekookt)',qty:'1 pot',prijs:'low'},{n:'Speklapjes',qty:'4 stuks',prijs:'mid'}],groente:true,vlees:true,seizoen:'herfst/winter'},
+  {id:2,naam:'Bloemkool schotel',cat:'Aardappelen',ing:[{n:'Aardappelen',qty:'1 kg',prijs:'low'},{n:'Bloemkool',qty:'1 stuks',prijs:'low'},{n:'Karbonade',qty:'4 stuks',prijs:'mid'},{n:'Roomsaus',qty:'1 pak',prijs:'low'}],groente:true,vlees:true},
+  {id:3,naam:'Spinazie',cat:'Aardappelen',ing:[{n:'Aardappelen',qty:'1 kg',prijs:'low'},{n:'Spinazie',qty:'500 g',prijs:'low'},{n:'Gehaktballen',qty:'8 stuks',prijs:'mid'},{n:'Jus (pot)',qty:'1 pot',prijs:'low'}],groente:true,vlees:true},
+  {id:4,naam:'Stampot',cat:'Aardappelen',ing:[{n:'Aardappelen',qty:'1,2 kg',prijs:'low'},{n:'Boerenkool / andijvie',qty:'400 g',prijs:'low'},{n:'Rookworst',qty:'2 stuks',prijs:'mid'},{n:'Jus (pot)',qty:'1 pot',prijs:'low'}],groente:true,vlees:true,seizoen:'herfst/winter'},
+  {id:5,naam:'(Vega) Schnitzel',cat:'Aardappelen',ing:[{n:'Vegaschnitzel',qty:'4 stuks',prijs:'mid'},{n:'Aardappelkroketjes',qty:'1 zak',prijs:'low'},{n:'Boontjes / broccoli',qty:'400 g',prijs:'low'},{n:'Appelmoes 0% suiker',qty:'1 pot',prijs:'low'}],groente:true,vlees:false},
+  {id:6,naam:'Zalm met puree',cat:'Aardappelen',ing:[{n:'Zalmfilets',qty:'4 stuks',prijs:'high'},{n:'Aardappelen (puree)',qty:'1 kg',prijs:'low'},{n:'Doperwten',qty:'300 g',prijs:'low'},{n:'Vissaus',qty:'1 fles',prijs:'mid'},{n:'Boter',qty:'50 g',prijs:'low'},{n:'Melk',qty:'100 ml',prijs:'low'}],groente:true,vis:true},
+  {id:7,naam:'Kippenpoten',cat:'Aardappelen',ing:[{n:'Kippenpoten',qty:'8 stuks',prijs:'mid'},{n:'Aardappelen',qty:'1 kg',prijs:'low'},{n:'Doperwten',qty:'300 g',prijs:'low'},{n:'Appelmoes 0% suiker',qty:'1 pot',prijs:'low'}],groente:true,vlees:true},
+  {id:8,naam:'Eenpanspasta',cat:'Pasta',ing:[{n:'Tagliatelle',qty:'400 g',prijs:'low'},{n:'Garnalen',qty:'300 g',prijs:'high'},{n:'Spinazie',qty:'200 g',prijs:'low'},{n:'Knoflook',qty:'2 teentjes',prijs:'low'},{n:'Olijfolie',qty:'2 el',prijs:'low'}],groente:true,vis:true},
+  {id:9,naam:'Zalm carbonara',cat:'Pasta',ing:[{n:'Tagliatelle',qty:'400 g',prijs:'low'},{n:'Zalmfilets',qty:'300 g',prijs:'high'},{n:'Broccoli',qty:'1 stuks',prijs:'low'},{n:'Roomsaus',qty:'1 pak',prijs:'low'},{n:'Parmezaan',qty:'50 g',prijs:'mid'}],groente:true,vis:true},
+  {id:10,naam:'Pangasiusfilet',cat:'Pasta',ing:[{n:'Wokkels',qty:'400 g',prijs:'low'},{n:'Pangasiusfilet',qty:'4 stuks',prijs:'mid'},{n:'Wortel / doperwten',qty:'300 g',prijs:'low'},{n:'Sojasaus',qty:'3 el',prijs:'low'}],groente:true,vis:true},
+  {id:11,naam:'Kip Pesto',cat:'Pasta',ing:[{n:'Wokkels',qty:'400 g',prijs:'low'},{n:'Kipfilet',qty:'500 g',prijs:'mid'},{n:'Boontjes',qty:'300 g',prijs:'low'},{n:'Pesto',qty:'1 pot',prijs:'mid'}],groente:true,vlees:true},
+  {id:12,naam:'Spaghetti bolognese',cat:'Pasta',ing:[{n:'Spaghetti',qty:'400 g',prijs:'low'},{n:'Spaghettisaus',qty:'1 pot',prijs:'low'},{n:'Ham reepjes',qty:'150 g',prijs:'low'},{n:'Salade',qty:'1 zak',prijs:'low'},{n:'Geraspte kaas',qty:'50 g',prijs:'low'}],groente:true,vlees:true},
+  {id:13,naam:'Kip Toscana',cat:'Pasta',ing:[{n:'Pasta',qty:'400 g',prijs:'low'},{n:'Kipfilet',qty:'500 g',prijs:'mid'},{n:'Toscana saus',qty:'1 pot',prijs:'mid'},{n:'Boontjes',qty:'300 g',prijs:'low'}],groente:true,vlees:true},
+  {id:14,naam:'Lasagne',cat:'Pasta',ing:[{n:'Lasagne pasta',qty:'1 pak',prijs:'low'},{n:'Kip gehakt',qty:'500 g',prijs:'mid'},{n:'Groente naar keuze',qty:'300 g',prijs:'low'},{n:'Bechamelsaus',qty:'1 pak',prijs:'low'},{n:'Geraspte kaas',qty:'100 g',prijs:'low'}],groente:true,vlees:true},
+  {id:15,naam:'Romige pasta',cat:'Pasta',ing:[{n:'Pasta',qty:'400 g',prijs:'low'},{n:'Kip gehakt',qty:'500 g',prijs:'mid'},{n:'Groente naar keuze',qty:'300 g',prijs:'low'},{n:'Roomsaus',qty:'1 pak',prijs:'low'}],groente:true,vlees:true},
+  {id:16,naam:'Linguine met garnalen',cat:'Pasta',ing:[{n:'Linguine',qty:'400 g',prijs:'low'},{n:'Garnalen',qty:'300 g',prijs:'high'},{n:'Tomaten',qty:'4 stuks',prijs:'low'},{n:'Knoflook',qty:'3 teentjes',prijs:'low'},{n:'Olijfolie',qty:'3 el',prijs:'low'}],groente:true,vis:true},
+  {id:17,naam:'Kip Piri Piri',cat:'Rijst',ing:[{n:'Rijst',qty:'360 g',prijs:'low'},{n:'Kipfilet',qty:'500 g',prijs:'mid'},{n:'Paprika / courgette',qty:'2 stuks',prijs:'low'},{n:'Piri Piri saus',qty:'1 fles',prijs:'mid'},{n:'Naanbrood',qty:'4 stuks',prijs:'low'}],groente:true,vlees:true},
+  {id:18,naam:'Kip Shoarma',cat:'Rijst',ing:[{n:'Rijst',qty:'360 g',prijs:'low'},{n:'Kipfilet',qty:'500 g',prijs:'mid'},{n:'Boontjes',qty:'300 g',prijs:'low'},{n:'Shoarma kruiden',qty:'1 zakje',prijs:'low'}],groente:true,vlees:true},
+  {id:19,naam:'Butter Chicken',cat:'Rijst',ing:[{n:'Rijst',qty:'360 g',prijs:'low'},{n:'Kipfilet',qty:'500 g',prijs:'mid'},{n:'Groente naar keuze',qty:'300 g',prijs:'low'},{n:'Butter chicken saus',qty:'1 pot',prijs:'mid'},{n:'Naanbrood',qty:'4 stuks',prijs:'low'}],groente:true,vlees:true},
+  {id:20,naam:'Rijst zoetzuur',cat:'Rijst',ing:[{n:'Rijst',qty:'360 g',prijs:'low'},{n:'Groente naar keuze',qty:'300 g',prijs:'low'},{n:'Zoetzure saus',qty:'1 pot',prijs:'low'}],groente:true,vlees:false},
+  {id:21,naam:'Sticky Chicken',cat:'Rijst',ing:[{n:'Rijst',qty:'360 g',prijs:'low'},{n:'Kipfilet',qty:'500 g',prijs:'mid'},{n:'Broccoli',qty:'1 stuks',prijs:'low'},{n:'Sticky sauce',qty:'1 fles',prijs:'mid'},{n:'Naanbrood',qty:'4 stuks',prijs:'low'}],groente:true,vlees:true},
+  {id:22,naam:'Beef Shanghai',cat:'Noodles',ing:[{n:'Noodles',qty:'400 g',prijs:'low'},{n:'Taugé',qty:'200 g',prijs:'low'},{n:'Gehaktballetjes',qty:'400 g',prijs:'mid'},{n:'Sojasaus',qty:'3 el',prijs:'low'}],groente:true,vlees:true},
+  {id:23,naam:'Noodles met kip',cat:'Noodles',ing:[{n:'Noodles',qty:'400 g',prijs:'low'},{n:'Kipfilet',qty:'400 g',prijs:'mid'},{n:'Broccoli',qty:'1 stuks',prijs:'low'},{n:'Woksaus',qty:'1 fles',prijs:'low'}],groente:true,vlees:true},
+  {id:24,naam:'Risotto',cat:'Overig',ing:[{n:'Risotto rijst',qty:'320 g',prijs:'mid'},{n:'Kipfilet',qty:'400 g',prijs:'mid'},{n:'Spinazie',qty:'200 g',prijs:'low'},{n:'Parmezaan',qty:'60 g',prijs:'mid'},{n:'Bouillon',qty:'1 liter',prijs:'low'}],groente:true,vlees:true},
+  {id:25,naam:'Burrito',cat:'Overig',ing:[{n:'Wraps',qty:'8 stuks',prijs:'low'},{n:'Kipfilet',qty:'500 g',prijs:'mid'},{n:'Paprika / mais / ui',qty:'300 g',prijs:'low'},{n:'Guacamole',qty:'1 bakje',prijs:'mid'},{n:'Zure room',qty:'1 bakje',prijs:'low'}],groente:true,vlees:true},
+];
+
+const VAST = [
+  {n:'Brood',qty:'2 stuks',prijs:'low'},
+  {n:'Kaas',qty:'200 g',prijs:'mid'},
+  {n:'Vleeswaren',qty:'200 g',prijs:'mid'},
+  {n:'Melk',qty:'2 liter',prijs:'low'},
+  {n:'Yoghurt',qty:'500 g',prijs:'low'},
+  {n:'Eieren',qty:'12 stuks',prijs:'low'},
+  {n:'Boter',qty:'250 g',prijs:'low'},
+  {n:'Appels',qty:'1 kg',prijs:'low'},
+  {n:'Bananen',qty:'1 tros',prijs:'low'},
+  {n:'Seizoensfruit',qty:'naar keuze',prijs:'low'},
+  {n:'Tussendoor snacks',qty:'naar keuze',prijs:'mid'},
+  {n:'Koffie / thee',qty:'naar keuze',prijs:'mid'},
+];
+
+const DAGEN = ['Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag','Zondag'];
+const HUISGENOTEN = ['Isa','Esmée','Jaco','Jacoline'];
+const AVATARBG = ['#B5D4F4','#9FE1CB','#F5C4B3','#F4C0D1'];
+const AVATARFG = ['#185FA5','#1D9E75','#D85A30','#D4537E'];
+const FIXED = {1:'Aardappelen', 3:'Aardappelen'};
+
+let S = {menu:[], akkoord:[], openSwap:null, currentUser:null, checked:{}, menuWeek:null};
+
+// --- Storage (localStorage fallback for GitHub Pages) ---
+function saveData() {
+  try { localStorage.setItem('weekmenu_v3', JSON.stringify({menu:S.menu.map(g=>g?g.id:null), akkoord:S.akkoord, menuWeek:S.menuWeek})); } catch(e){}
+}
+function loadData() {
+  try {
+    const d = JSON.parse(localStorage.getItem('weekmenu_v3')||'null');
+    if(d) {
+      S.menu = (d.menu||[]).map(id => GERECHTEN.find(g=>g.id===id)||null);
+      S.akkoord = d.akkoord||[];
+      S.menuWeek = d.menuWeek||null;
+    }
+  } catch(e){}
+}
+
+// --- Deadline logic ---
+function getWeekNr() {
+  const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()+3-(d.getDay()+6)%7);
+  const w=new Date(d.getFullYear(),0,4);
+  return 1+Math.round(((d-w)/86400000-3+(w.getDay()+6)%7)/7);
+}
+function getNextFriday() {
+  const now = new Date();
+  const day = now.getDay(); // 0=sun,1=mon,...,5=fri,6=sat
+  const daysUntilFriday = (5 - day + 7) % 7 || 7;
+  const fri = new Date(now);
+  fri.setDate(now.getDate() + daysUntilFriday);
+  fri.setHours(18,0,0,0);
+  return fri;
+}
+function getNextSunday2359() {
+  const fri = getNextFriday();
+  const sun = new Date(fri);
+  sun.setDate(fri.getDate() + 2);
+  sun.setHours(23,59,0,0);
+  return sun;
+}
+function formatDeadline(d) {
+  return d.toLocaleDateString('nl-NL',{weekday:'long',day:'numeric',month:'long'}) + ' om ' + d.toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'});
+}
+function getDeadlineStatus() {
+  const now = new Date();
+  const sun = getNextSunday2359();
+  const diff = sun - now;
+  const hours = diff / 3600000;
+  if(hours > 48) return {cls:'ok', msg:'⏰ Deadline: akkoord voor ' + formatDeadline(sun)};
+  if(hours > 12) return {cls:'warn', msg:'⚠️ Nog ' + Math.round(hours) + ' uur om akkoord te geven!'};
+  if(hours > 0) return {cls:'urgent', msg:'🔴 Deadline bijna verstreken! Nog ' + Math.round(hours) + ' uur.'};
+  return {cls:'ok', msg:'✅ Deadline verstreken — automatisch akkoord gegeven.'};
+}
+
+function checkAutoAkkoord() {
+  const now = new Date();
+  const sun = getNextSunday2359();
+  if(now > sun && S.menu.length) {
+    HUISGENOTEN.forEach(h => { if(!S.akkoord.includes(h)) S.akkoord.push(h); });
+    saveData();
+  }
+}
+
+function renderDeadlineBanner(elId) {
+  const status = getDeadlineStatus();
+  const el = document.getElementById(elId);
+  if(el) el.innerHTML = `<div class="deadline-banner ${status.cls}">${status.msg}</div>`;
+}
+
+// --- Screens ---
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(id==='s-login') { checkAutoAkkoord(); renderLogin(); }
+  if(id==='s-menu') renderMenuScreen();
+  if(id==='s-boodschappen') renderBoodschappen();
+}
+
+function renderLogin() {
+  renderDeadlineBanner('deadline-login');
+  document.getElementById('profile-grid').innerHTML = HUISGENOTEN.map((naam,i)=>{
+    const ini = naam.slice(0,2).toUpperCase();
+    const done = S.akkoord.includes(naam);
+    return `<div class="profile-card ${done?'done':''}" onclick="selectUser('${naam}')">
+      <div class="avatar" style="background:${AVATARBG[i]};color:${AVATARFG[i]};">${ini}</div>
+      <div class="profile-name">${naam}</div>
+      <div class="profile-status">${done?'Akkoord gegeven ✓':'Tik om verder te gaan'}</div>
+    </div>`;
+  }).join('');
+}
+
+function selectUser(naam) {
+  S.currentUser = naam;
+  document.getElementById('user-sub').textContent = naam;
+  document.getElementById('week-badge').textContent = 'Week ' + getWeekNr();
+  showScreen('s-menu');
+}
+
+// --- Generate menu ---
+async function generateMenu() {
+  document.getElementById('ai-thinking').style.display='flex';
+  document.getElementById('menu-body').style.opacity='0.3';
+  document.getElementById('ai-msg').textContent='AI stelt menu samen als voedingsdeskundige...';
+
+  const maand = new Date().toLocaleString('nl-NL',{month:'long'});
+  const gerechtenTekst = GERECHTEN.map(g=>`${g.naam} (${g.cat}${g.vis?' - vis':g.vlees?' - vlees':' - vega'})`).join(', ');
+
+  const prompt = `Jij bent een erkende voedingsdeskundige. Stel een optimaal weekmenu op voor 4 volwassenen (Isa, Esmée, Jaco, Jacoline) voor de maand ${maand}.
+
+Beschikbare gerechten:
+${gerechtenTekst}
+
+VASTE REGELS (absoluut verplicht):
+- Dag 2 (dinsdag): MOET categorie Aardappelen zijn
+- Dag 4 (donderdag): MOET categorie Aardappelen zijn
+
+VOEDINGSKUNDIGE REGELS:
+- Minimaal 2x vis per week (omega-3)
+- Minimaal 1x volledig vegetarisch
+- Maximaal 3x rood vlees per week
+- Afwisseling eiwitbronnen per dag (niet 2x kip achter elkaar)
+- Minimaal 1x peulvruchten of extra groente-rijke maaltijd
+- Geen 2x dezelfde categorie op rij
+- Zaterdag en zondag: iets feestelijker of comfortfood
+
+SEIZOENSADVIES (${maand}):
+- Gebruik seizoensgebonden groenten waar mogelijk
+
+Geef UITSLUITEND een JSON array met 7 gerechtnamen (ma t/m zo), exact zoals ze in de lijst staan. Niets anders.`;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({model:'claude-sonnet-4-20250514', max_tokens:500, messages:[{role:'user',content:prompt}]})
+    });
+    const data = await resp.json();
+    const txt = data.content[0].text.trim().replace(/```json|```/g,'').trim();
+    const namen = JSON.parse(txt);
+    S.menu = namen.map(naam => GERECHTEN.find(g=>g.naam===naam)||null);
+    // Safety: enforce fixed days
+    [1,3].forEach(idx => {
+      if(!S.menu[idx] || S.menu[idx].cat!=='Aardappelen') {
+        const used = S.menu.map((g,i)=>i!==idx&&g?g.id:null).filter(Boolean);
+        const alt = GERECHTEN.filter(g=>g.cat==='Aardappelen'&&!used.includes(g.id));
+        S.menu[idx] = alt[0] || GERECHTEN.find(g=>g.cat==='Aardappelen');
+      }
+    });
+    S.akkoord = [];
+    S.menuWeek = getWeekNr();
+    saveData();
+  } catch(e) {
+    S.menu = localGenerate();
+    S.akkoord = [];
+    S.menuWeek = getWeekNr();
+    saveData();
+    showToast('AI niet beschikbaar — lokaal menu gegenereerd');
+  }
+
+  document.getElementById('ai-thinking').style.display='none';
+  document.getElementById('menu-body').style.opacity='1';
+  renderMenuScreen();
+}
+
+function localGenerate() {
+  const shuffle = arr => {const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+  const used = new Set();
+  const result = new Array(7).fill(null);
+  const aard = shuffle(GERECHTEN.filter(g=>g.cat==='Aardappelen'));
+  result[1]=aard[0];used.add(aard[0].id);
+  result[3]=aard[1]||aard[0];used.add(result[3].id);
+  const plan = [[0,'Pasta'],[2,'Rijst'],[4,'Noodles'],[5,'Overig'],[6,'Rijst']];
+  plan.forEach(([slot,cat])=>{
+    const pool = shuffle(GERECHTEN.filter(g=>g.cat===cat&&!used.has(g.id)));
+    const pick = pool[0] || shuffle(GERECHTEN.filter(g=>!used.has(g.id)))[0] || GERECHTEN[0];
+    result[slot]=pick; used.add(pick.id);
+  });
+  return result;
+}
+
+// --- Render menu ---
+function renderMenuScreen() {
+  checkAutoAkkoord();
+  renderDeadlineBanner('deadline-menu');
+  if(!S.menu.length) { generateMenu(); return; }
+
+  const total = 4, akk = S.akkoord.length, allDone = akk >= total;
+  document.getElementById('akk-count').textContent = akk;
+  document.getElementById('prog-fill').style.width = (akk/total*100)+'%';
+  document.getElementById('akk-label').textContent = allDone ? 'Menu bevestigd! 🎉' : `${total-akk} nog niet akkoord`;
+  document.getElementById('akk-chips').innerHTML = HUISGENOTEN.map(h=>
+    `<span class="chip ${S.akkoord.includes(h)?'ok':''}">${S.akkoord.includes(h)?'✓ ':''} ${h}</span>`
+  ).join('');
+  document.getElementById('btn-akk').style.display = S.akkoord.includes(S.currentUser)?'none':'inline-flex';
+  document.getElementById('btn-boodschappen').style.display = allDone?'inline-flex':'none';
+
+  document.getElementById('days-list').innerHTML = DAGEN.map((dag,i)=>{
+    const g = S.menu[i]; if(!g) return '';
+    const isFixed = FIXED[i]!==undefined;
+    const tags = [
+      g.groente&&'<span class="nutri-tag">Groente</span>',
+      g.vis&&'<span class="nutri-tag vis">Vis</span>',
+      g.vlees&&'<span class="nutri-tag">Vlees</span>',
+      (!g.vlees&&!g.vis)&&'<span class="nutri-tag vega">Vega</span>',
+      g.seizoen&&`<span class="nutri-tag seizoen">Seizoen</span>`
+    ].filter(Boolean).join('');
+    const isOpen = S.openSwap===i;
+    const swapPool = isFixed ? GERECHTEN.filter(x=>x.cat==='Aardappelen'&&x.id!==g.id) : GERECHTEN.filter(x=>x.id!==g.id);
+    const opts = swapPool.map(x=>`<div class="swap-opt" onclick="swapDay(${i},${x.id})">${x.naam}</div>`).join('');
+    return `<div class="day-card ${isFixed?'avg':''}">
+      <div class="day-header">
+        <span class="day-label">${dag}</span>
+        <span class="day-meal">${g.naam}</span>
+        <span class="cat-badge cat-${g.cat}">${g.cat}</span>
+        ${isFixed?'<span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--green-light);color:var(--green-dark);">AVG</span>':''}
+        <button class="edit-btn" onclick="toggleSwap(${i})">${isOpen?'Sluit':'Wissel'}</button>
+      </div>
+      <div class="nutri-row">${tags}</div>
+      <div class="swap-area ${isOpen?'open':''}">
+        <p style="font-size:12px;color:var(--text-faint);margin-bottom:6px;">${isFixed?'Kies een ander aardappelgerecht:':'Kies een ander gerecht:'}</p>
+        <div class="swap-grid">${opts}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleSwap(i) { S.openSwap = S.openSwap===i?null:i; renderMenuScreen(); }
+
+function swapDay(dayIdx, gid) {
+  S.menu[dayIdx] = GERECHTEN.find(g=>g.id===gid);
+  S.akkoord = []; S.openSwap = null;
+  saveData(); renderMenuScreen();
+  showToast('Gerecht gewisseld — akkoorden gereset');
+}
+
+function giveAkkoord() {
+  if(!S.akkoord.includes(S.currentUser)) S.akkoord.push(S.currentUser);
+  saveData(); renderMenuScreen();
+  const left = 4 - S.akkoord.length;
+  if(left===0) showToast('Iedereen akkoord! Boodschappenlijst staat klaar 🎉');
+  else showToast(`Akkoord gegeven! Nog ${left} huisgenoot${left!==1?'en':''}.`);
+}
+
+// --- Boodschappen ---
+function renderBoodschappen() {
+  // Collect ingredients, merge duplicates
+  const ingMap = {};
+  (S.menu||[]).forEach((g,i)=>{
+    if(!g) return;
+    g.ing.forEach(item=>{
+      if(!ingMap[item.n]) ingMap[item.n] = {qty:item.qty, prijs:item.prijs, dagen:[]};
+      ingMap[item.n].dagen.push(DAGEN[i].slice(0,2));
+    });
+  });
+
+  let html = `<div class="sec-label">Van het weekmenu</div>`;
+  html += Object.entries(ingMap).map(([naam,data])=>{
+    const id = 'bc_'+naam.replace(/\W/g,'');
+    const ch = S.checked[id];
+    return `<div class="boodschap-item ${ch?'done':''}">
+      <div class="check-c ${ch?'on':''}" onclick="toggleCheck('${id}',this.parentElement)"></div>
+      <div class="price-dot price-${data.prijs}"></div>
+      <span class="item-name">${naam}</span>
+      <span class="item-qty">${data.qty}</span>
+    </div>`;
+  }).join('');
+
+  html += `<div class="sec-label" style="margin-top:16px;">Vaste producten</div>`;
+  html += VAST.map((item,idx)=>{
+    const id = 'bv_'+idx;
+    const ch = S.checked[id];
+    return `<div class="boodschap-item ${ch?'done':''}">
+      <div class="check-c ${ch?'on':''}" onclick="toggleCheck('${id}',this.parentElement)"></div>
+      <div class="price-dot price-${item.prijs}"></div>
+      <span class="item-name">${item.n}</span>
+      <span class="item-qty">${item.qty}</span>
+    </div>`;
+  }).join('');
+
+  document.getElementById('boodschappen-list').innerHTML = html;
+}
+
+function toggleCheck(id, row) {
+  S.checked[id] = !S.checked[id];
+  row.classList.toggle('done', S.checked[id]);
+  row.querySelector('.check-c').classList.toggle('on', S.checked[id]);
+}
+
+function copyWA() {
+  let txt = `🛒 *Boodschappenlijst week ${getWeekNr()}*\n\n📅 *Weekmenu*\n`;
+  DAGEN.forEach((d,i)=>{ const g=S.menu[i]; txt+=d+': '+(g?g.naam:'–')+'\n'; });
+  txt += '\n🥦 *Ingrediënten (4 pers.)*\n';
+  const ingMap = {};
+  (S.menu||[]).forEach(g=>{ if(g) g.ing.forEach(item=>{ ingMap[item.n]=item.qty; }); });
+  Object.entries(ingMap).forEach(([n,q])=>txt+=`• ${n} — ${q}\n`);
+  txt += '\n🏠 *Vaste producten*\n';
+  VAST.forEach(item=>txt+=`• ${item.n} — ${item.qty}\n`);
+  txt += '\n🛍️ Aanbiedingen checken:\nAH: https://www.ah.nl/bonus\nJumbo: https://www.jumbo.com/aanbiedingen';
+  navigator.clipboard.writeText(txt).then(()=>showToast('Gekopieerd voor WhatsApp!')).catch(()=>showToast('Kopiëren mislukt'));
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.style.display='block';
+  setTimeout(()=>t.style.display='none', 2800);
+}
+
+// --- Init ---
+loadData();
+renderLogin();
+
+// Refresh deadline banner every minute
+setInterval(()=>{ if(document.getElementById('s-login').classList.contains('active')) renderDeadlineBanner('deadline-login'); }, 60000);
+</script>
+</body>
+</html>
