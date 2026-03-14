@@ -3,701 +3,762 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Weekmenu — Isa, Esmée, Jaco & Jacoline</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Weekmenu — Isa, Esmée, Jaco &amp; Jacoline</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --green: #1D9E75;
-  --green-light: #E1F5EE;
-  --green-dark: #0F6E56;
-  --amber: #BA7517;
-  --amber-light: #FAEEDA;
-  --red-light: #FCEBEB;
-  --red: #A32D2D;
-  --bg: #F7F5F0;
-  --surface: #FFFFFF;
-  --border: rgba(0,0,0,0.08);
-  --border-strong: rgba(0,0,0,0.15);
-  --text: #1A1A18;
-  --text-muted: #6B6B62;
-  --text-faint: #A0A098;
-  --radius: 14px;
-  --radius-sm: 8px;
-  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+:root{
+  --cream:#F6F1E9;--cream-dk:#EDE5D4;--surf:#FDFAF4;
+  --ink:#1A1710;--muted:#6A6252;--faint:#A99E8E;
+  --green:#2A5C45;--gmid:#4A9B73;--glight:#D6EFE2;
+  --amber:#8B5A1A;--alight:#FAF0D7;
+  --red:#8B2020;--rlight:#FAE0E0;
+  --border:rgba(26,23,16,.09);--bmd:rgba(26,23,16,.16);
+  --sh:0 2px 16px rgba(0,0,0,.07),0 1px 4px rgba(0,0,0,.04);
+  --sh-sm:0 1px 4px rgba(0,0,0,.05);--r:18px;--rsm:10px;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 16px; }
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-}
-.app {
-  max-width: 560px;
-  margin: 0 auto;
-  padding: 0 16px 80px;
-}
-.screen { display: none; }
-.screen.active { display: block; }
-
-/* Header */
-.header {
-  padding: 32px 0 20px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-.logo {
-  font-family: 'DM Serif Display', serif;
-  font-size: 26px;
-  color: var(--text);
-  line-height: 1;
-}
-.logo small {
-  display: block;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  font-weight: 300;
-  color: var(--text-muted);
-  margin-top: 4px;
-}
-.week-pill {
-  font-size: 12px;
-  padding: 5px 12px;
-  border-radius: 20px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--text-muted);
-  margin-top: 4px;
-}
-
-/* Cards */
-.card {
-  background: var(--surface);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-  padding: 16px 18px;
-  margin-bottom: 10px;
-}
-
-/* Buttons */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 10px 20px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-strong);
-  background: var(--surface);
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.15s;
-  text-decoration: none;
-}
-.btn:hover { background: var(--bg); }
-.btn:active { transform: scale(0.97); }
-.btn-primary { background: var(--text); color: #fff; border-color: var(--text); }
-.btn-primary:hover { background: #333; }
-.btn-green { background: var(--green); color: #fff; border-color: var(--green); }
-.btn-green:hover { background: var(--green-dark); }
-.btn-sm { padding: 6px 12px; font-size: 12px; }
-.btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
-
-/* Profile login */
-.profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0; }
-.profile-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px 16px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: var(--shadow);
-}
-.profile-card:hover { border-color: var(--green); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
-.profile-card.done { border-color: var(--green); background: var(--green-light); }
-.avatar {
-  width: 48px; height: 48px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px; font-weight: 500;
-  margin: 0 auto 10px;
-}
-.profile-name { font-size: 15px; font-weight: 500; }
-.profile-status { font-size: 11px; margin-top: 3px; color: var(--text-faint); }
-.profile-card.done .profile-status { color: var(--green); }
-
-/* Deadline banner */
-.deadline-banner {
-  border-radius: var(--radius-sm);
-  padding: 10px 14px;
-  font-size: 13px;
-  margin-bottom: 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.deadline-banner.ok { background: var(--green-light); color: var(--green-dark); }
-.deadline-banner.warn { background: var(--amber-light); color: var(--amber); }
-.deadline-banner.urgent { background: var(--red-light); color: var(--red); }
-
-/* Progress */
-.progress-wrap { margin-bottom: 14px; }
-.progress-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-.progress-bar { height: 5px; background: var(--bg); border-radius: 5px; overflow: hidden; }
-.progress-fill { height: 100%; background: var(--green); border-radius: 5px; transition: width 0.5s cubic-bezier(.4,0,.2,1); }
-.chips { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 8px; }
-.chip { font-size: 11px; padding: 3px 10px; border-radius: 20px; background: var(--bg); color: var(--text-muted); }
-.chip.ok { background: var(--green-light); color: var(--green-dark); }
-
-/* Day cards */
-.day-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 14px 16px;
-  margin-bottom: 8px;
-  box-shadow: var(--shadow);
-  transition: border-color 0.2s;
-}
-.day-card.avg { border-left: 3px solid var(--green); }
-.day-header { display: flex; align-items: center; gap: 10px; }
-.day-label { font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--text-faint); width: 66px; flex-shrink: 0; }
-.day-meal { font-size: 15px; font-weight: 500; flex: 1; }
-.cat-badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; flex-shrink: 0; }
-.cat-Aardappelen { background: #FAEEDA; color: #633806; }
-.cat-Pasta { background: #EEEDFE; color: #3C3489; }
-.cat-Rijst { background: #EAF3DE; color: #27500A; }
-.cat-Noodles { background: #E1F5EE; color: #085041; }
-.cat-Overig { background: #F1EFE8; color: #444441; }
-.nutri-row { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 7px; }
-.nutri-tag { font-size: 10px; padding: 2px 7px; border-radius: 20px; background: var(--bg); color: var(--text-muted); }
-.nutri-tag.vis { background: #E6F1FB; color: #185FA5; }
-.nutri-tag.vega { background: #EAF3DE; color: #3B6D11; }
-.nutri-tag.seizoen { background: #FAEEDA; color: #854F0B; }
-.edit-btn { background: none; border: none; cursor: pointer; color: var(--text-faint); font-size: 11px; font-family: 'DM Sans',sans-serif; padding: 3px 8px; border-radius: 6px; }
-.edit-btn:hover { background: var(--bg); color: var(--text); }
-
-/* Swap */
-.swap-area { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
-.swap-area.open { display: block; }
-.swap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(126px,1fr)); gap: 5px; margin-top: 8px; }
-.swap-opt { padding: 7px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg); font-size: 12px; cursor: pointer; text-align: center; font-family: 'DM Sans',sans-serif; transition: border-color 0.15s; }
-.swap-opt:hover { border-color: var(--green); background: var(--green-light); }
-
-/* Boodschappen */
-.sec-label { font-size: 10px; font-weight: 500; letter-spacing: .09em; text-transform: uppercase; color: var(--text-faint); margin: 18px 0 8px; }
-.boodschap-item { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); }
-.boodschap-item:last-child { border-bottom: none; }
-.boodschap-item.done .item-name { text-decoration: line-through; color: var(--text-faint); }
-.check-c {
-  width: 20px; height: 20px;
-  border-radius: 50%;
-  border: 1.5px solid var(--border-strong);
-  cursor: pointer; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s;
-}
-.check-c.on { background: var(--green); border-color: var(--green); }
-.check-c.on::after { content:''; width:5px; height:9px; border:2px solid #fff; border-left:none; border-top:none; transform:rotate(45deg) translateY(-1px); display:block; }
-.item-name { font-size: 14px; flex: 1; }
-.item-qty { font-size: 12px; color: var(--text-muted); }
-.price-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.price-low { background: var(--green); }
-.price-mid { background: var(--amber); }
-.price-high { background: #D85A30; }
-
-/* Supermarkt links */
-.super-links { display: flex; gap: 8px; margin-top: 14px; }
-.super-link {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 10px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  background: var(--surface);
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  text-decoration: none;
-  color: var(--text);
-  transition: all 0.15s;
-}
-.super-link:hover { border-color: var(--green); background: var(--green-light); }
-.super-logo { font-size: 16px; }
-
-/* AI thinking */
-.ai-row { display: flex; align-items: center; gap: 12px; padding: 20px 0; color: var(--text-muted); font-size: 14px; }
-.spinner { width: 20px; height: 20px; border: 2px solid var(--border-strong); border-top-color: var(--green); border-radius: 50%; animation: spin .7s linear infinite; flex-shrink: 0; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* Toast */
-#toast {
-  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-  background: var(--text); color: #fff;
-  padding: 11px 22px; border-radius: 20px;
-  font-size: 13px; display: none; z-index: 9999;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-}
-
-/* Topbar */
-.topbar { display: flex; align-items: center; justify-content: space-between; padding: 24px 0 16px; }
-
-/* Legend */
-.legend { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
-.legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); }
-
-/* Responsive */
-@media (max-width: 400px) {
-  .profile-grid { grid-template-columns: 1fr 1fr; }
-  .day-label { width: 54px; }
-}
-
-/* Fade in */
-.screen.active { animation: fadeIn 0.3s ease; }
-@keyframes fadeIn { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform: translateY(0); } }
+*{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;}
+/* NAV */
+nav{background:var(--ink);padding:0 20px;position:sticky;top:0;z-index:90;box-shadow:0 2px 12px rgba(0,0,0,.25);}
+.nav-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;height:54px;gap:10px;}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:#fff;cursor:pointer;text-decoration:none;margin-right:10px;white-space:nowrap;}
+.nav-pills{display:flex;gap:5px;flex:1;}
+.npill{font-size:.7rem;font-weight:500;padding:4px 11px;border-radius:20px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);white-space:nowrap;}
+.nav-links{display:flex;gap:4px;margin-left:auto;}
+.nlink{font-size:.75rem;font-weight:500;font-family:'Jost',sans-serif;padding:6px 13px;border-radius:20px;border:1px solid rgba(255,255,255,.18);background:transparent;color:rgba(255,255,255,.75);cursor:pointer;transition:all .18s;}
+.nlink:hover{background:rgba(255,255,255,.12);color:#fff;}
+.nlink.cur{background:rgba(255,255,255,.16);color:#fff;border-color:rgba(255,255,255,.35);}
+.ntimer{font-size:.7rem;font-variant-numeric:tabular-nums;color:rgba(255,255,255,.55);cursor:pointer;padding:5px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.13);white-space:nowrap;transition:all .2s;}
+.ntimer:hover{background:rgba(255,255,255,.1);}
+.ntimer.exp{color:#F87171;border-color:rgba(248,113,113,.4);}
+/* PAGES */
+.page{display:none;max-width:900px;margin:0 auto;padding:28px 20px 110px;}
+.page.on{display:block;animation:fu .28s ease;}
+@keyframes fu{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+/* PAGE HEADER */
+.ph{margin-bottom:24px;}
+.ph h1{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;line-height:1.1;}
+.ph p{font-size:.875rem;font-weight:300;color:var(--muted);margin-top:5px;}
+/* PROFILE */
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.pcard{background:var(--surf);border:1.5px solid var(--border);border-radius:var(--r);padding:22px 16px;text-align:center;cursor:pointer;transition:all .22s;box-shadow:var(--sh-sm);}
+.pcard:hover{border-color:var(--gmid);transform:translateY(-3px);box-shadow:var(--sh);}
+.pcard.ok{border-color:var(--gmid);background:var(--glight);}
+.pav{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:600;margin:0 auto 10px;color:#fff;}
+.pname{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;}
+.pst{font-size:.75rem;margin-top:4px;color:var(--faint);}
+.pcard.ok .pst{color:var(--green);}
+/* PROGRESS */
+.progbox{background:var(--surf);border:1px solid var(--border);border-radius:var(--r);padding:16px 20px;margin-bottom:18px;box-shadow:var(--sh-sm);}
+.progtop{display:flex;justify-content:space-between;margin-bottom:9px;}
+.proglbl{font-size:.8rem;font-weight:500;color:var(--muted);}
+.progbar{height:6px;background:var(--cream-dk);border-radius:6px;overflow:hidden;}
+.progfill{height:100%;background:linear-gradient(90deg,var(--green),var(--gmid));border-radius:6px;transition:width .5s cubic-bezier(.4,0,.2,1);}
+.chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:9px;}
+.chip{font-size:.7rem;font-weight:500;padding:4px 10px;border-radius:20px;background:var(--cream-dk);color:var(--muted);}
+.chip.ok{background:var(--glight);color:var(--green);}
+/* DAY CARDS */
+.dcard{background:var(--surf);border:1.5px solid var(--border);border-radius:var(--r);padding:17px 19px;margin-bottom:10px;box-shadow:var(--sh-sm);transition:border-color .25s;}
+.dcard.done{border-color:var(--gmid);}
+.dcard.prop{border-color:#E8A83A;}
+.dhead{display:flex;align-items:center;gap:0;margin-bottom:11px;}
+.dpill{font-size:.7rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-right:12px;flex-shrink:0;}
+.dname{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;flex:1;}
+.tagrow{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:11px;}
+.tag{display:inline-flex;align-items:center;gap:3px;font-size:.68rem;font-weight:500;padding:3px 9px;border-radius:20px;}
+.mstatus{display:flex;gap:5px;flex-wrap:wrap;padding-top:11px;border-top:1px solid var(--border);}
+.mchip{display:flex;align-items:center;gap:5px;font-size:.72rem;font-weight:500;padding:4px 10px;border-radius:20px;background:var(--cream);color:var(--muted);}
+.miniav{width:19px;height:19px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:700;color:#fff;flex-shrink:0;}
+.altbtn{font-size:.78rem;font-weight:500;font-family:'Jost',sans-serif;padding:6px 14px;border-radius:20px;border:1.5px solid #E8A83A;background:#FEF8EC;color:#7A5010;cursor:pointer;transition:all .18s;display:inline-flex;align-items:center;gap:5px;margin-top:10px;}
+.altbtn:hover{background:#FEF0CC;transform:translateY(-1px);}
+/* PROPOSAL */
+.propbox{margin-top:12px;background:#FFFBF0;border:1.5px solid #ECC96A;border-radius:var(--rsm);padding:14px 16px;}
+.prophdr{font-size:.78rem;font-weight:500;color:var(--amber);margin-bottom:8px;}
+.propdish{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;margin-bottom:10px;}
+.vrow{display:flex;flex-wrap:wrap;gap:7px;}
+.vitem{display:flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:.75rem;}
+.vsm{padding:4px 10px;border-radius:14px;border:1.5px solid transparent;cursor:pointer;font-size:.74rem;font-weight:500;font-family:'Jost',sans-serif;transition:all .15s;}
+.vfor{background:var(--glight);color:var(--green);border-color:#9DD4B8;}
+.vfor.on{background:var(--green);color:#fff;border-color:var(--green);}
+.vag{background:var(--rlight);color:var(--red);border-color:#E8AAAA;}
+.vag.on{background:var(--red);color:#fff;border-color:var(--red);}
+.ptally{font-size:.7rem;color:var(--faint);margin-top:8px;line-height:1.6;}
+.rchip{display:inline-flex;align-items:center;gap:4px;font-size:.78rem;font-weight:500;padding:5px 12px;border-radius:20px;margin-top:6px;}
+.racc{background:var(--glight);color:var(--green);}
+.rrej{background:var(--rlight);color:var(--red);}
+/* AKKOORD BAR */
+.abar{position:fixed;bottom:0;left:0;right:0;background:var(--surf);border-top:1px solid var(--border);padding:14px 20px;display:flex;gap:10px;justify-content:center;z-index:80;box-shadow:0 -4px 20px rgba(0,0,0,.08);}
+.akbtn{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;font-style:italic;padding:12px 36px;border-radius:30px;border:none;background:var(--green);color:#fff;cursor:pointer;box-shadow:0 4px 16px rgba(42,92,69,.3);transition:all .2s;}
+.akbtn:hover{background:#1E4A36;transform:translateY(-2px);}
+.akbtn.already{background:var(--glight);color:var(--green);box-shadow:none;cursor:default;transform:none;}
+.nbtn{font-family:'Jost',sans-serif;font-size:.85rem;font-weight:500;padding:12px 20px;border-radius:30px;border:1.5px solid var(--bmd);background:var(--surf);color:var(--muted);cursor:pointer;transition:all .2s;}
+.nbtn:hover{background:var(--cream-dk);}
+/* CELEBRATION */
+.celeb{text-align:center;padding:40px 24px;background:linear-gradient(135deg,var(--glight),#F0FFF4);border-radius:var(--r);border:1.5px solid var(--gmid);margin-bottom:20px;box-shadow:var(--sh);}
+.celeb .big{font-size:3.5rem;margin-bottom:12px;}
+.celeb h2{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;color:var(--green);margin-bottom:6px;}
+.celeb p{font-size:.9rem;color:var(--muted);}
+.celeb .gobtn{margin-top:18px;display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:30px;background:var(--green);color:#fff;border:none;font-family:'Jost',sans-serif;font-size:.9rem;font-weight:500;cursor:pointer;box-shadow:0 4px 16px rgba(42,92,69,.25);transition:all .2s;}
+.celeb .gobtn:hover{background:#1E4A36;transform:translateY(-2px);}
+/* BOODSCHAPPEN */
+.bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;margin-top:12px;}
+.bcat{background:var(--surf);border:1px solid var(--border);border-radius:var(--r);padding:17px 17px;box-shadow:var(--sh-sm);}
+.bcattitle{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;margin-bottom:11px;display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--border);padding-bottom:9px;}
+.bitem{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid rgba(26,23,16,.05);font-size:.875rem;}
+.bitem:last-child{border-bottom:none;}
+.bitem.done .bn{text-decoration:line-through;color:var(--faint);}
+.cc{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--bmd);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.cc.on{background:var(--green);border-color:var(--green);}
+.cc.on::after{content:'';width:5px;height:9px;border:2px solid #fff;border-left:none;border-top:none;transform:rotate(45deg) translateY(-1px);display:block;}
+.bn{flex:1;}
+.bq{font-size:.75rem;color:var(--faint);white-space:nowrap;}
+.pd{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.pl{background:var(--gmid);}.pm{background:#E8A83A;}.ph2{background:var(--red);}
+.blegend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;}
+.blitem{display:flex;align-items:center;gap:5px;font-size:.72rem;color:var(--muted);}
+.copybtn{display:inline-flex;align-items:center;gap:8px;font-family:'Jost',sans-serif;font-size:.875rem;font-weight:500;padding:11px 22px;border-radius:28px;border:1.5px solid var(--green);background:var(--glight);color:var(--green);cursor:pointer;transition:all .2s;}
+.copybtn:hover{background:var(--green);color:#fff;transform:translateY(-1px);}
+/* MODALS */
+.ov{display:none;position:fixed;inset:0;background:rgba(26,23,16,.55);z-index:200;align-items:flex-start;justify-content:center;padding:24px;overflow-y:auto;}
+.ov.open{display:flex;}
+.modal{background:var(--surf);border-radius:22px;padding:26px;width:100%;max-width:500px;margin:auto;box-shadow:0 24px 64px rgba(0,0,0,.18);}
+.mtitle{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;margin-bottom:4px;}
+.msub{font-size:.85rem;color:var(--muted);margin-bottom:16px;}
+.altlist{display:flex;flex-direction:column;gap:6px;max-height:52vh;overflow-y:auto;}
+.altitem{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--rsm);border:1.5px solid var(--border);cursor:pointer;transition:all .15s;background:var(--cream);}
+.altitem:hover,.altitem.sel{border-color:var(--gmid);background:var(--glight);}
+.ainame{font-weight:500;font-size:.9rem;flex:1;}
+.aicheck{color:var(--green);}
+.mfoot{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;}
+.btn{padding:9px 20px;border-radius:24px;border:1.5px solid transparent;cursor:pointer;font-size:.85rem;font-weight:500;font-family:'Jost',sans-serif;transition:all .18s;display:inline-flex;align-items:center;gap:6px;}
+.btn:hover{transform:translateY(-1px);}
+.btncx{background:var(--cream-dk);color:var(--ink);border-color:var(--bmd);}
+.btnok{background:var(--green);color:#fff;border-color:var(--green);}
+.btnok:disabled{background:var(--glight);border-color:#9DD4B8;color:var(--gmid);}
+.dlinput{width:100%;padding:10px 12px;border-radius:var(--rsm);border:1.5px solid var(--bmd);font-size:.95rem;font-family:'Jost',sans-serif;margin:8px 0 4px;background:var(--cream);color:var(--ink);}
+/* AI LOADER */
+.aiov{display:none;position:fixed;inset:0;background:rgba(246,241,233,.9);z-index:100;align-items:center;justify-content:center;flex-direction:column;gap:14px;}
+.aiov.open{display:flex;}
+.aisp{width:44px;height:44px;border:3px solid var(--cream-dk);border-top-color:var(--green);border-radius:50%;animation:sp .8s linear infinite;}
+.aitxt{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;font-style:italic;color:var(--ink);}
+.aisub{font-size:.8rem;color:var(--muted);}
+@keyframes sp{to{transform:rotate(360deg);}}
+/* DAG EDIT */
+.dag-row{border-bottom:1px solid rgba(26,23,16,.06);}
+.dag-row:last-child{border-bottom:none;}
+.dag-header{display:flex;align-items:center;gap:10px;padding:9px 0;cursor:pointer;user-select:none;}
+.dag-header:hover .dag-title{color:var(--green);}
+.dag-pill-sm{font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:20px;flex-shrink:0;}
+.dag-info{flex:1;min-width:0;}
+.dag-title{font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:700;}
+.dag-ing-preview{font-size:.72rem;color:var(--faint);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.dag-chevron{font-size:1rem;color:var(--faint);transition:transform .2s;flex-shrink:0;}
+.dag-edit{padding:8px 0 12px 0;}
+.dag-edit-list{display:flex;flex-direction:column;gap:6px;margin-bottom:8px;}
+.dag-ing-item{display:flex;gap:6px;align-items:center;}
+.dag-ing-input{flex:2;font-size:.82rem;font-family:'Jost',sans-serif;border:1px solid var(--bmd);border-radius:8px;padding:6px 10px;background:var(--cream);color:var(--ink);outline:none;}
+.dag-ing-input:focus{border-color:var(--gmid);}
+.dag-qty-input{flex:1;font-size:.82rem;font-family:'Jost',sans-serif;border:1px solid var(--bmd);border-radius:8px;padding:6px 10px;background:var(--cream);color:var(--ink);outline:none;min-width:0;}
+.dag-qty-input:focus{border-color:var(--gmid);}
+.dag-del-btn{background:none;border:none;cursor:pointer;color:var(--faint);font-size:1.1rem;line-height:1;padding:4px 6px;border-radius:6px;flex-shrink:0;transition:all .15s;}
+.dag-del-btn:hover{color:var(--red);background:var(--rlight);}
+.dag-add-btn{font-size:.78rem;font-weight:500;font-family:'Jost',sans-serif;padding:6px 12px;border-radius:20px;border:1.5px dashed var(--bmd);background:transparent;color:var(--muted);cursor:pointer;transition:all .18s;}
+.dag-add-btn:hover{border-color:var(--gmid);color:var(--green);background:var(--glight);}
+.toast{position:fixed;top:70px;right:20px;transform:translateX(120%);background:var(--ink);color:#fff;padding:11px 18px;border-radius:14px;font-size:.82rem;font-weight:500;z-index:300;transition:transform .3s cubic-bezier(.4,0,.2,1);max-width:280px;white-space:normal;line-height:1.4;box-shadow:0 4px 20px rgba(0,0,0,.22);}
+.toast.show{transform:translateX(0);}
+@media(max-width:560px){.page{padding:18px 14px 110px;}.pgrid{grid-template-columns:1fr 1fr;}.nav-pills{display:none;}.bgrid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
-<div class="app">
 
-<!-- LOGIN -->
-<div id="s-login" class="screen active">
-  <div class="header">
-    <div class="logo">Weekmenu<small>Isa · Esmée · Jaco · Jacoline</small></div>
-  </div>
-  <div id="deadline-login"></div>
-  <div class="profile-grid" id="profile-grid"></div>
-</div>
-
-<!-- MENU -->
-<div id="s-menu" class="screen">
-  <div class="topbar">
-    <div class="logo" style="font-size:22px;">Weekmenu<small id="user-sub" style="font-size:12px;"></small></div>
-    <div style="display:flex;gap:6px;align-items:center;">
-      <span class="week-pill" id="week-badge"></span>
-      <button class="btn btn-sm" onclick="showScreen('s-login')">Wissel</button>
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" onclick="gp('p-login')">Weekmenu</a>
+    <div class="nav-pills">
+      <span class="npill" id="nw"></span>
+      <span class="npill" id="nm"></span>
+    </div>
+    <div class="nav-links">
+      <div class="ntimer" id="ntimer" onclick="openDl()">⏳ --:--:--</div>
+      <button class="nlink" id="nl-home" onclick="gp('p-login')">Home</button>
+      <button class="nlink" id="nl-menu" onclick="gp('p-menu')">Menu</button>
+      <button class="nlink" id="nl-bood" onclick="gp('p-boodschappen')">Boodschappen</button>
     </div>
   </div>
-  <div id="deadline-menu"></div>
-  <div id="ai-thinking" class="ai-row" style="display:none;">
-    <div class="spinner"></div><span id="ai-msg">AI stelt menu samen...</span>
-  </div>
-  <div id="menu-body">
-    <div class="progress-wrap">
-      <div class="progress-meta">
-        <span style="font-size:12px;color:var(--text-muted);">Akkoord <span id="akk-count">0</span>/4</span>
-        <span style="font-size:12px;color:var(--text-faint);" id="akk-label"></span>
-      </div>
-      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
-      <div class="chips" id="akk-chips"></div>
-    </div>
-    <div id="days-list"></div>
-    <div class="btn-row">
-      <button class="btn btn-green" id="btn-akk" onclick="giveAkkoord()">Akkoord met dit menu</button>
-      <button class="btn" onclick="generateMenu()">Nieuw menu genereren</button>
-      <button class="btn btn-primary" id="btn-boodschappen" style="display:none;" onclick="showScreen('s-boodschappen')">Boodschappenlijst →</button>
+</nav>
+
+<div class="page on" id="p-login">
+  <div class="ph"><h1>Wie ben jij?</h1><p>Kies jouw profiel om het weekmenu te bekijken en goed te keuren.</p></div>
+  <div class="pgrid" id="pgrid"></div>
+  <div id="share-box" style="margin-top:20px;background:var(--surf);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;box-shadow:var(--sh-sm);display:none;">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;margin-bottom:10px;">📲 Deel met huisgenoten</div>
+    <p style="font-size:.85rem;color:var(--muted);margin-bottom:12px;line-height:1.6;">Stuur de link hieronder via WhatsApp naar Esmée, Jaco en Jacoline. Iedereen opent de link, kiest hun profiel en geeft akkoord — of stelt een alternatief voor.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="copybtn" style="font-size:.82rem;padding:9px 16px;" onclick="shareLink()">🔗 Kopieer app-link</button>
+      <button class="copybtn" style="font-size:.82rem;padding:9px 16px;background:var(--glight);border-color:var(--green);" onclick="shareWhatsApp()">💬 Deel via WhatsApp</button>
     </div>
   </div>
 </div>
 
-<!-- BOODSCHAPPEN -->
-<div id="s-boodschappen" class="screen">
-  <div class="topbar">
-    <div class="logo" style="font-size:22px;">Boodschappen</div>
-    <button class="btn btn-sm" onclick="showScreen('s-menu')">← Menu</button>
+<div class="page" id="p-menu">
+  <div class="ph" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;">
+    <div><h1>Weekmenu</h1><p id="menusub">Bekijk het menu en geef akkoord onderaan.</p></div>
+    <button id="gen-menu-btn" class="copybtn" style="display:none;" onclick="generateMenu()">✨ Menu genereren</button>
   </div>
-  <div class="legend">
-    <div class="legend-item"><div class="price-dot price-low"></div> Goedkoop</div>
-    <div class="legend-item"><div class="price-dot price-mid"></div> Middel</div>
-    <div class="legend-item"><div class="price-dot price-high"></div> Duurder</div>
+  <div class="progbox">
+    <div class="progtop"><span class="proglbl">Akkoord <span id="akc">0</span>/4</span><span class="proglbl" id="aklbl" style="color:var(--faint)"></span></div>
+    <div class="progbar"><div class="progfill" id="progfill" style="width:0%"></div></div>
+    <div class="chips" id="akchips"></div>
   </div>
-  <div id="boodschappen-list"></div>
-  <div class="super-links">
-    <a class="super-link" href="https://www.ah.nl/bonus" target="_blank"><span class="super-logo">🛒</span> AH Aanbiedingen</a>
-    <a class="super-link" href="https://www.jumbo.com/aanbiedingen" target="_blank"><span class="super-logo">🛒</span> Jumbo Aanbiedingen</a>
+  <div id="dayslist"></div>
+  <div id="celebwrap"></div>
+</div>
+
+<div class="page" id="p-boodschappen">
+  <div class="ph" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
+    <div><h1>Boodschappenlijst</h1><p>Week <span id="bwk"></span> — vink af wat je al in huis hebt</p></div>
+    <button class="copybtn" onclick="copyMenu()">📋 Kopieer weekmenu</button>
   </div>
-  <div class="btn-row" style="margin-top:14px;">
-    <button class="btn btn-primary" onclick="copyWA()">Kopieer voor WhatsApp</button>
+
+  <!-- Weekoverzicht per dag -->
+  <div id="week-overzicht" style="background:var(--surf);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;margin-bottom:18px;box-shadow:var(--sh-sm);">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;margin-bottom:12px;border-bottom:1px solid var(--border);padding-bottom:9px;">🗓️ Weekoverzicht avondeten</div>
+    <div id="week-overzicht-items"></div>
+  </div>
+
+  <div class="blegend">
+    <div class="blitem"><div class="pd pl"></div>Goedkoop</div>
+    <div class="blitem"><div class="pd pm"></div>Middel</div>
+    <div class="blitem"><div class="pd ph2"></div>Duurder</div>
+  </div>
+  <div class="bgrid" id="bgrid"></div>
+  <div id="grandtotal"></div>
+</div>
+
+<div class="ov" id="altov"><div class="modal" id="altmod"></div></div>
+<div class="ov" id="dlov">
+  <div class="modal">
+    <div class="mtitle">Deadline instellen</div>
+    <div class="msub">Stemming sluit automatisch op dit moment.</div>
+    <input type="datetime-local" class="dlinput" id="dlinput">
+    <div class="mfoot">
+      <button class="btn btncx" onclick="closeDl()">Annuleren</button>
+      <button class="btn btnok" onclick="saveDl()">Opslaan</button>
+    </div>
   </div>
 </div>
 
+<div class="abar" id="abar" style="display:none;">
+  <button class="akbtn" id="akbtn" onclick="giveAkkoord()">Ik ben akkoord</button>
 </div>
-<div id="toast"></div>
+
+<div class="aiov" id="aiov"><div class="aisp"></div><div class="aitxt">Menu wordt samengesteld…</div><div class="aisub">De voedingsdeskundige is aan het werk</div></div>
+<div class="toast" id="toast"></div>
 
 <script>
-const GERECHTEN = [
-  {id:1,naam:'Krootjes',cat:'Aardappelen',ing:[{n:'Aardappelen',qty:'1 kg',prijs:'low'},{n:'Bieten (gekookt)',qty:'1 pot',prijs:'low'},{n:'Speklapjes',qty:'4 stuks',prijs:'mid'}],groente:true,vlees:true,seizoen:'herfst/winter'},
-  {id:2,naam:'Bloemkool schotel',cat:'Aardappelen',ing:[{n:'Aardappelen',qty:'1 kg',prijs:'low'},{n:'Bloemkool',qty:'1 stuks',prijs:'low'},{n:'Karbonade',qty:'4 stuks',prijs:'mid'},{n:'Roomsaus',qty:'1 pak',prijs:'low'}],groente:true,vlees:true},
-  {id:3,naam:'Spinazie',cat:'Aardappelen',ing:[{n:'Aardappelen',qty:'1 kg',prijs:'low'},{n:'Spinazie',qty:'500 g',prijs:'low'},{n:'Gehaktballen',qty:'8 stuks',prijs:'mid'},{n:'Jus (pot)',qty:'1 pot',prijs:'low'}],groente:true,vlees:true},
-  {id:4,naam:'Stampot',cat:'Aardappelen',ing:[{n:'Aardappelen',qty:'1,2 kg',prijs:'low'},{n:'Boerenkool / andijvie',qty:'400 g',prijs:'low'},{n:'Rookworst',qty:'2 stuks',prijs:'mid'},{n:'Jus (pot)',qty:'1 pot',prijs:'low'}],groente:true,vlees:true,seizoen:'herfst/winter'},
-  {id:5,naam:'(Vega) Schnitzel',cat:'Aardappelen',ing:[{n:'Vegaschnitzel',qty:'4 stuks',prijs:'mid'},{n:'Aardappelkroketjes',qty:'1 zak',prijs:'low'},{n:'Boontjes / broccoli',qty:'400 g',prijs:'low'},{n:'Appelmoes 0% suiker',qty:'1 pot',prijs:'low'}],groente:true,vlees:false},
-  {id:6,naam:'Zalm met puree',cat:'Aardappelen',ing:[{n:'Zalmfilets',qty:'4 stuks',prijs:'high'},{n:'Aardappelen (puree)',qty:'1 kg',prijs:'low'},{n:'Doperwten',qty:'300 g',prijs:'low'},{n:'Vissaus',qty:'1 fles',prijs:'mid'},{n:'Boter',qty:'50 g',prijs:'low'},{n:'Melk',qty:'100 ml',prijs:'low'}],groente:true,vis:true},
-  {id:7,naam:'Kippenpoten',cat:'Aardappelen',ing:[{n:'Kippenpoten',qty:'8 stuks',prijs:'mid'},{n:'Aardappelen',qty:'1 kg',prijs:'low'},{n:'Doperwten',qty:'300 g',prijs:'low'},{n:'Appelmoes 0% suiker',qty:'1 pot',prijs:'low'}],groente:true,vlees:true},
-  {id:8,naam:'Eenpanspasta',cat:'Pasta',ing:[{n:'Tagliatelle',qty:'400 g',prijs:'low'},{n:'Garnalen',qty:'300 g',prijs:'high'},{n:'Spinazie',qty:'200 g',prijs:'low'},{n:'Knoflook',qty:'2 teentjes',prijs:'low'},{n:'Olijfolie',qty:'2 el',prijs:'low'}],groente:true,vis:true},
-  {id:9,naam:'Zalm carbonara',cat:'Pasta',ing:[{n:'Tagliatelle',qty:'400 g',prijs:'low'},{n:'Zalmfilets',qty:'300 g',prijs:'high'},{n:'Broccoli',qty:'1 stuks',prijs:'low'},{n:'Roomsaus',qty:'1 pak',prijs:'low'},{n:'Parmezaan',qty:'50 g',prijs:'mid'}],groente:true,vis:true},
-  {id:10,naam:'Pangasiusfilet',cat:'Pasta',ing:[{n:'Wokkels',qty:'400 g',prijs:'low'},{n:'Pangasiusfilet',qty:'4 stuks',prijs:'mid'},{n:'Wortel / doperwten',qty:'300 g',prijs:'low'},{n:'Sojasaus',qty:'3 el',prijs:'low'}],groente:true,vis:true},
-  {id:11,naam:'Kip Pesto',cat:'Pasta',ing:[{n:'Wokkels',qty:'400 g',prijs:'low'},{n:'Kipfilet',qty:'500 g',prijs:'mid'},{n:'Boontjes',qty:'300 g',prijs:'low'},{n:'Pesto',qty:'1 pot',prijs:'mid'}],groente:true,vlees:true},
-  {id:12,naam:'Spaghetti bolognese',cat:'Pasta',ing:[{n:'Spaghetti',qty:'400 g',prijs:'low'},{n:'Spaghettisaus',qty:'1 pot',prijs:'low'},{n:'Ham reepjes',qty:'150 g',prijs:'low'},{n:'Salade',qty:'1 zak',prijs:'low'},{n:'Geraspte kaas',qty:'50 g',prijs:'low'}],groente:true,vlees:true},
-  {id:13,naam:'Kip Toscana',cat:'Pasta',ing:[{n:'Pasta',qty:'400 g',prijs:'low'},{n:'Kipfilet',qty:'500 g',prijs:'mid'},{n:'Toscana saus',qty:'1 pot',prijs:'mid'},{n:'Boontjes',qty:'300 g',prijs:'low'}],groente:true,vlees:true},
-  {id:14,naam:'Lasagne',cat:'Pasta',ing:[{n:'Lasagne pasta',qty:'1 pak',prijs:'low'},{n:'Kip gehakt',qty:'500 g',prijs:'mid'},{n:'Groente naar keuze',qty:'300 g',prijs:'low'},{n:'Bechamelsaus',qty:'1 pak',prijs:'low'},{n:'Geraspte kaas',qty:'100 g',prijs:'low'}],groente:true,vlees:true},
-  {id:15,naam:'Romige pasta',cat:'Pasta',ing:[{n:'Pasta',qty:'400 g',prijs:'low'},{n:'Kip gehakt',qty:'500 g',prijs:'mid'},{n:'Groente naar keuze',qty:'300 g',prijs:'low'},{n:'Roomsaus',qty:'1 pak',prijs:'low'}],groente:true,vlees:true},
-  {id:16,naam:'Linguine met garnalen',cat:'Pasta',ing:[{n:'Linguine',qty:'400 g',prijs:'low'},{n:'Garnalen',qty:'300 g',prijs:'high'},{n:'Tomaten',qty:'4 stuks',prijs:'low'},{n:'Knoflook',qty:'3 teentjes',prijs:'low'},{n:'Olijfolie',qty:'3 el',prijs:'low'}],groente:true,vis:true},
-  {id:17,naam:'Kip Piri Piri',cat:'Rijst',ing:[{n:'Rijst',qty:'360 g',prijs:'low'},{n:'Kipfilet',qty:'500 g',prijs:'mid'},{n:'Paprika / courgette',qty:'2 stuks',prijs:'low'},{n:'Piri Piri saus',qty:'1 fles',prijs:'mid'},{n:'Naanbrood',qty:'4 stuks',prijs:'low'}],groente:true,vlees:true},
-  {id:18,naam:'Kip Shoarma',cat:'Rijst',ing:[{n:'Rijst',qty:'360 g',prijs:'low'},{n:'Kipfilet',qty:'500 g',prijs:'mid'},{n:'Boontjes',qty:'300 g',prijs:'low'},{n:'Shoarma kruiden',qty:'1 zakje',prijs:'low'}],groente:true,vlees:true},
-  {id:19,naam:'Butter Chicken',cat:'Rijst',ing:[{n:'Rijst',qty:'360 g',prijs:'low'},{n:'Kipfilet',qty:'500 g',prijs:'mid'},{n:'Groente naar keuze',qty:'300 g',prijs:'low'},{n:'Butter chicken saus',qty:'1 pot',prijs:'mid'},{n:'Naanbrood',qty:'4 stuks',prijs:'low'}],groente:true,vlees:true},
-  {id:20,naam:'Rijst zoetzuur',cat:'Rijst',ing:[{n:'Rijst',qty:'360 g',prijs:'low'},{n:'Groente naar keuze',qty:'300 g',prijs:'low'},{n:'Zoetzure saus',qty:'1 pot',prijs:'low'}],groente:true,vlees:false},
-  {id:21,naam:'Sticky Chicken',cat:'Rijst',ing:[{n:'Rijst',qty:'360 g',prijs:'low'},{n:'Kipfilet',qty:'500 g',prijs:'mid'},{n:'Broccoli',qty:'1 stuks',prijs:'low'},{n:'Sticky sauce',qty:'1 fles',prijs:'mid'},{n:'Naanbrood',qty:'4 stuks',prijs:'low'}],groente:true,vlees:true},
-  {id:22,naam:'Beef Shanghai',cat:'Noodles',ing:[{n:'Noodles',qty:'400 g',prijs:'low'},{n:'Taugé',qty:'200 g',prijs:'low'},{n:'Gehaktballetjes',qty:'400 g',prijs:'mid'},{n:'Sojasaus',qty:'3 el',prijs:'low'}],groente:true,vlees:true},
-  {id:23,naam:'Noodles met kip',cat:'Noodles',ing:[{n:'Noodles',qty:'400 g',prijs:'low'},{n:'Kipfilet',qty:'400 g',prijs:'mid'},{n:'Broccoli',qty:'1 stuks',prijs:'low'},{n:'Woksaus',qty:'1 fles',prijs:'low'}],groente:true,vlees:true},
-  {id:24,naam:'Risotto',cat:'Overig',ing:[{n:'Risotto rijst',qty:'320 g',prijs:'mid'},{n:'Kipfilet',qty:'400 g',prijs:'mid'},{n:'Spinazie',qty:'200 g',prijs:'low'},{n:'Parmezaan',qty:'60 g',prijs:'mid'},{n:'Bouillon',qty:'1 liter',prijs:'low'}],groente:true,vlees:true},
-  {id:25,naam:'Burrito',cat:'Overig',ing:[{n:'Wraps',qty:'8 stuks',prijs:'low'},{n:'Kipfilet',qty:'500 g',prijs:'mid'},{n:'Paprika / mais / ui',qty:'300 g',prijs:'low'},{n:'Guacamole',qty:'1 bakje',prijs:'mid'},{n:'Zure room',qty:'1 bakje',prijs:'low'}],groente:true,vlees:true},
+const MB=[
+  {id:0,name:'Isa',     c:'#2A5C45',bg:'#D6EFE2',i:'IS'},
+  {id:1,name:'Esmée',   c:'#1A3F72',bg:'#DDE8F5',i:'ES'},
+  {id:2,name:'Jaco',    c:'#8B5A1A',bg:'#FAF0D7',i:'JA'},
+  {id:3,name:'Jacoline',c:'#8B2020',bg:'#FAE0E0',i:'JL'},
+];
+const CAT={
+  aardappelen:{e:'🥔',l:'Aardappelen',c:'#7B4F12',bg:'#FFF0CC'},
+  pasta:{e:'🍝',l:'Pasta',c:'#5C3317',bg:'#FBE9E7'},
+  rijst:{e:'🍚',l:'Rijst',c:'#1A3F72',bg:'#DDE8F5'},
+  noodles:{e:'🥢',l:'Noodles',c:'#6B0F1A',bg:'#FFE4E8'},
+  vis:{e:'🐟',l:'Vis',c:'#0E4D6B',bg:'#DDE8F5'},
+  vegetarisch:{e:'🥗',l:'Vegetarisch',c:'#2A5C45',bg:'#D6EFE2'},
+  pakket:{e:'📦',l:'AH Pakket',c:'#374151',bg:'#F3F4F6'},
+  overig:{e:'🍴',l:'Overig',c:'#4B4033',bg:'#F5F0E8'},
+};
+const DS=[
+  {bg:'#E8F4FD',c:'#1A4A72'},{bg:'#FEF3E2',c:'#7A4A10'},
+  {bg:'#E8F5EE',c:'#1E5E3A'},{bg:'#FDE8F0',c:'#7A1A40'},
+  {bg:'#F0E8FD',c:'#4A1A7A'},{bg:'#FDE8E8',c:'#7A1A1A'},
+  {bg:'#E8FDF0',c:'#1A5A2A'},
+];
+const DAGEN=['Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag','Zondag'];
+const DEMOJI=['🌥️','🥔','🌿','🥔','🎉','✨','☀️'];
+const FIXED={1:'aardappelen',3:'aardappelen'};
+
+const GR=[
+  {n:'Krootjes',cat:'aardappelen',ing:[{n:'Aardappelen',q:'1 kg',p:'l'},{n:'Bieten (gekookt)',q:'1 pot',p:'l'},{n:'Speklapjes',q:'4 st',p:'m'}]},
+  {n:'Bloemkool met karbonade',cat:'aardappelen',ing:[{n:'Aardappelen',q:'1 kg',p:'l'},{n:'Bloemkool',q:'1 st',p:'l'},{n:'Karbonade',q:'4 st',p:'m'},{n:'Roomsaus',q:'1 pak',p:'l'}]},
+  {n:'Spinazie met gehaktbal',cat:'aardappelen',ing:[{n:'Aardappelen',q:'1 kg',p:'l'},{n:'Spinazie',q:'500 g',p:'l'},{n:'Gehaktballen',q:'8 st',p:'m'},{n:'Jus',q:'1 pot',p:'l'}]},
+  {n:'Stampot',cat:'aardappelen',ing:[{n:'Aardappelen',q:'1.2 kg',p:'l'},{n:'Boerenkool/andijvie',q:'400 g',p:'l'},{n:'Rookworst',q:'2 st',p:'m'},{n:'Jus',q:'1 pot',p:'l'}]},
+  {n:'Vega schnitzel',cat:'aardappelen',ing:[{n:'Vegaschnitzel',q:'4 st',p:'m'},{n:'Aardappelkroketjes',q:'1 zak',p:'l'},{n:'Boontjes/broccoli',q:'400 g',p:'l'},{n:'Appelmoes',q:'1 pot',p:'l'}],vega:true},
+  {n:'Zalm met aardappelpuree',cat:'aardappelen',ing:[{n:'Zalmfilet',q:'4 st',p:'h'},{n:'Aardappelen',q:'1 kg',p:'l'},{n:'Doperwten',q:'300 g',p:'l'},{n:'Vissaus',q:'1 fles',p:'m'}],vis:true},
+  {n:'Kippenpoten',cat:'aardappelen',ing:[{n:'Kippenpoten',q:'8 st',p:'m'},{n:'Aardappelen',q:'1 kg',p:'l'},{n:'Doperwten',q:'300 g',p:'l'},{n:'Appelmoes',q:'1 pot',p:'l'}]},
+  {n:'Kipfilet met verse patat',cat:'aardappelen',ing:[{n:'Kipfilet',q:'500 g',p:'m'},{n:'Verse patat',q:'1 kg',p:'l'},{n:'Boontjes',q:'300 g',p:'l'},{n:'Appelmoes',q:'1 pot',p:'l'}]},
+  {n:'Schnitzel met aardappelkroket',cat:'aardappelen',ing:[{n:'Schnitzel',q:'4 st',p:'m'},{n:'Aardappelkroketten',q:'1 zak',p:'l'},{n:'Boontjes',q:'300 g',p:'l'}]},
+  {n:'Eenpanspasta met garnalen',cat:'pasta',ing:[{n:'Tagliatelle',q:'400 g',p:'l'},{n:'Garnalen',q:'300 g',p:'h'},{n:'Spinazie',q:'200 g',p:'l'},{n:'Knoflook',q:'2 tnt',p:'l'}],vis:true},
+  {n:'Zalm carbonara',cat:'pasta',ing:[{n:'Tagliatelle',q:'400 g',p:'l'},{n:'Zalmfilet',q:'300 g',p:'h'},{n:'Broccoli',q:'1 st',p:'l'},{n:'Roomsaus',q:'1 pak',p:'l'}],vis:true},
+  {n:'Pangasiusfilet met wokkels',cat:'pasta',ing:[{n:'Wokkels',q:'400 g',p:'l'},{n:'Pangasiusfilet',q:'4 st',p:'m'},{n:'Wortel/doperwten',q:'300 g',p:'l'},{n:'Sojasaus',q:'3 el',p:'l'}],vis:true},
+  {n:'Kip Pesto',cat:'pasta',ing:[{n:'Wokkels',q:'400 g',p:'l'},{n:'Kipfilet',q:'500 g',p:'m'},{n:'Boontjes',q:'300 g',p:'l'},{n:'Pesto',q:'1 pot',p:'m'}]},
+  {n:'Spaghetti bolognese',cat:'pasta',ing:[{n:'Spaghetti',q:'400 g',p:'l'},{n:'Spaghettisaus',q:'1 pot',p:'l'},{n:'Ham reepjes',q:'150 g',p:'l'},{n:'Salade',q:'1 zak',p:'l'}]},
+  {n:'Kip Toscana',cat:'pasta',ing:[{n:'Pasta',q:'400 g',p:'l'},{n:'Kipfilet',q:'500 g',p:'m'},{n:'Toscana saus',q:'1 pot',p:'m'},{n:'Boontjes',q:'300 g',p:'l'}]},
+  {n:'Lasagne',cat:'pasta',ing:[{n:'Lasagne pasta',q:'1 pak',p:'l'},{n:'Kip gehakt',q:'500 g',p:'m'},{n:'Groente',q:'300 g',p:'l'},{n:'Bechamelsaus',q:'1 pak',p:'l'},{n:'Geraspte kaas',q:'100 g',p:'l'}]},
+  {n:'Romige pasta',cat:'pasta',ing:[{n:'Pasta',q:'400 g',p:'l'},{n:'Kip gehakt',q:'500 g',p:'m'},{n:'Groente',q:'300 g',p:'l'},{n:'Roomsaus',q:'1 pak',p:'l'}]},
+  {n:'Linguine met garnalen',cat:'pasta',ing:[{n:'Linguine',q:'400 g',p:'l'},{n:'Garnalen',q:'300 g',p:'h'},{n:'Tomaten',q:'4 st',p:'l'},{n:'Knoflook',q:'3 tnt',p:'l'}],vis:true},
+  {n:'Pasta pesto met boontjes',cat:'pasta',ing:[{n:'Pasta',q:'400 g',p:'l'},{n:'Pesto',q:'1 pot',p:'m'},{n:'Boontjes',q:'300 g',p:'l'},{n:'Parmezaan',q:'50 g',p:'m'}],vega:true},
+  {n:'Kip Piri Piri',cat:'rijst',ing:[{n:'Rijst',q:'360 g',p:'l'},{n:'Kipfilet',q:'500 g',p:'m'},{n:'Paprika/courgette',q:'2 st',p:'l'},{n:'Piri Piri saus',q:'1 fles',p:'m'},{n:'Naanbrood',q:'4 st',p:'l'}]},
+  {n:'Kip Shoarma',cat:'rijst',ing:[{n:'Rijst',q:'360 g',p:'l'},{n:'Kipfilet',q:'500 g',p:'m'},{n:'Boontjes',q:'300 g',p:'l'},{n:'Shoarma kruiden',q:'1 zakje',p:'l'}]},
+  {n:'Butter Chicken',cat:'rijst',ing:[{n:'Rijst',q:'360 g',p:'l'},{n:'Kipfilet',q:'500 g',p:'m'},{n:'Groente',q:'300 g',p:'l'},{n:'Butter chicken saus',q:'1 pot',p:'m'},{n:'Naanbrood',q:'4 st',p:'l'}]},
+  {n:'Rijst met zoetzure saus',cat:'rijst',ing:[{n:'Rijst',q:'360 g',p:'l'},{n:'Groente',q:'300 g',p:'l'},{n:'Zoetzure saus',q:'1 pot',p:'l'}],vega:true},
+  {n:'Sticky Chicken',cat:'rijst',ing:[{n:'Rijst',q:'360 g',p:'l'},{n:'Kipfilet',q:'500 g',p:'m'},{n:'Broccoli',q:'1 st',p:'l'},{n:'Sticky sauce',q:'1 fles',p:'m'},{n:'Naanbrood',q:'4 st',p:'l'}]},
+  {n:'Nasi met saté',cat:'rijst',ing:[{n:'Rijst',q:'360 g',p:'l'},{n:'Saté',q:'12 st',p:'m'},{n:'Groente',q:'300 g',p:'l'},{n:'Pindasaus',q:'1 pot',p:'l'}]},
+  {n:'Beef Shanghai',cat:'noodles',ing:[{n:'Noodles',q:'400 g',p:'l'},{n:'Taugé',q:'200 g',p:'l'},{n:'Gehaktballetjes',q:'400 g',p:'m'},{n:'Sojasaus',q:'3 el',p:'l'}]},
+  {n:'Noodles met kip',cat:'noodles',ing:[{n:'Noodles',q:'400 g',p:'l'},{n:'Kipfilet',q:'400 g',p:'m'},{n:'Broccoli',q:'1 st',p:'l'},{n:'Woksaus',q:'1 fles',p:'l'}]},
+  {n:'Risotto',cat:'overig',ing:[{n:'Risotto rijst',q:'320 g',p:'m'},{n:'Kipfilet',q:'400 g',p:'m'},{n:'Spinazie',q:'200 g',p:'l'},{n:'Parmezaan',q:'60 g',p:'m'},{n:'Bouillon',q:'1 lt',p:'l'}]},
+  {n:'Burrito',cat:'overig',ing:[{n:'Wraps',q:'8 st',p:'l'},{n:'Kipfilet',q:'500 g',p:'m'},{n:'Paprika/maïs/ui',q:'300 g',p:'l'},{n:'Guacamole',q:'1 bakje',p:'m'},{n:'Zure room',q:'1 bakje',p:'l'}]},
+  {n:"Taco's met gehakt",cat:'overig',ing:[{n:'Taco shells',q:'12 st',p:'l'},{n:'Rundergehakt',q:'500 g',p:'m'},{n:'Groente',q:'200 g',p:'l'},{n:'Tacokruiden',q:'1 zakje',p:'l'},{n:'Zure room',q:'1 bakje',p:'l'}]},
+  {n:'Pizza',cat:'overig',ing:[{n:'Pizzabodem',q:'4 st',p:'l'},{n:'Tomatensaus',q:'1 pot',p:'l'},{n:'Mozzarella',q:'2 st',p:'m'}]},
+  {n:'Sliptong met verse patat',cat:'vis',ing:[{n:'Sliptong',q:'4 st',p:'h'},{n:'Verse patat',q:'1 kg',p:'l'},{n:'Salade',q:'1 zak',p:'l'}],vis:true},
+  {n:'Verspakket Tagliatelle',cat:'pakket',ing:[{n:'AH Verspakket Tagliatelle',q:'1 pakket',p:'m'}]},
+  {n:'Lasagne pakket AH',cat:'pakket',ing:[{n:'AH Lasagne pakket',q:'1 pakket',p:'m'}]},
 ];
 
-const VAST = [
-  {n:'Brood',qty:'2 stuks',prijs:'low'},
-  {n:'Kaas',qty:'200 g',prijs:'mid'},
-  {n:'Vleeswaren',qty:'200 g',prijs:'mid'},
-  {n:'Melk',qty:'2 liter',prijs:'low'},
-  {n:'Yoghurt',qty:'500 g',prijs:'low'},
-  {n:'Eieren',qty:'12 stuks',prijs:'low'},
-  {n:'Boter',qty:'250 g',prijs:'low'},
-  {n:'Appels',qty:'1 kg',prijs:'low'},
-  {n:'Bananen',qty:'1 tros',prijs:'low'},
-  {n:'Seizoensfruit',qty:'naar keuze',prijs:'low'},
-  {n:'Tussendoor snacks',qty:'naar keuze',prijs:'mid'},
-  {n:'Koffie / thee',qty:'naar keuze',prijs:'mid'},
+// prijzen zijn realistische AH/Jumbo gemiddelden in euros
+const BCATS=[
+  {key:'av',label:'🍽️ Avondeten',items:[]}, // dynamisch gevuld vanuit menu
+  {key:'ob',label:'🌅 Ontbijt',items:[
+    {n:'Blue Band Goede Start boter',q:'250 g',p:'m',pr:2.49},
+    {n:'Vleeswaren (kipfilet)',q:'150 g',p:'m',pr:2.19},
+    {n:'Chocolade hagelslag',q:'380 g',p:'l',pr:1.99},
+    {n:'Bosvruchten hagelslag',q:'380 g',p:'l',pr:2.19},
+    {n:'Appelstroop',q:'450 g',p:'l',pr:1.79},
+    {n:'Griekse yoghurt',q:'500 g',p:'m',pr:2.49},
+    {n:'Diepvries blauwe bessen',q:'400 g',p:'m',pr:2.99},
+    {n:'Granola / muesli',q:'500 g',p:'m',pr:2.79},
+  ]},
+  {key:'lu',label:'🥪 Lunch',items:[
+    {n:'Bruine afbak pistolets',q:'8 st',p:'l',pr:1.49},
+    {n:'Vifit drinkyoghurt rode vruchten',q:'6-pack',p:'m',pr:3.29},
+    {n:'Beleg: kipfilet',q:'150 g',p:'m',pr:2.49},
+    {n:'Beleg: grilworst',q:'150 g',p:'l',pr:1.79},
+    {n:'Beleg: rauwe ham',q:'150 g',p:'m',pr:2.29},
+    {n:'Sla',q:'1 zak',p:'l',pr:0.99},
+    {n:'Tomaat',q:'500 g',p:'l',pr:1.29},
+    {n:'Komkommer',q:'1 st',p:'l',pr:0.89},
+  ]},
+  {key:'fr',label:'🍎 Fruit & groente',items:[
+    {n:'Appels (Elstar)',q:'1 kg',p:'l',pr:2.29},
+    {n:'Groene bananen',q:'1 tros',p:'l',pr:1.49},
+    {n:'Punt paprika\'s (mix: rood, geel, groen)',q:'3 st',p:'l',pr:1.99},
+    // seizoensfruit wordt dynamisch toegevoegd via AI
+  ]},
+  {key:'sn',label:'🍿 Snacks',items:[
+    {n:'Noten mix',q:'200 g',p:'m',pr:2.99},
+    {n:'Peijnenburg ontbijtkoek',q:'465 g',p:'l',pr:2.49},
+    {n:'Krentenbollen',q:'6 st',p:'l',pr:1.79},
+    {n:'Rijstwafels met smeerkaas',q:'100 g',p:'l',pr:1.99},
+    {n:"McVitie's Digestives Original",q:'400 g',p:'m',pr:2.49},
+    {n:'Mentos kauwgum white',q:'3-pack',p:'l',pr:2.29},
+    {n:'Bolletje zoute pepsels',q:'200 g',p:'l',pr:1.49},
+  ]},
+  {key:'dr',label:'🥤 Drinken',items:[
+    {n:'Mineraalwater (still)',q:'6 x 1.5 lt',p:'l',pr:2.99},
+    {n:'Bruisend water',q:'6 x 1.5 lt',p:'l',pr:2.99},
+    {n:'Sprite',q:'6 x 33 cl',p:'l',pr:3.49},
+    {n:'Ice Tea',q:'1.5 lt',p:'l',pr:1.99},
+    {n:'Thee',q:'1 doos 20 st',p:'l',pr:1.69},
+  ]},
+  {key:'to',label:'🍮 Toetje',items:[
+    {n:'Zaanse Hoeve halfvolle yoghurt vanille',q:'2x 500 g',p:'l',pr:3.58},
+    {n:'Biologische halfvolle yoghurt',q:'500 g',p:'m',pr:1.99},
+    {n:'Campina vla vanille',q:'1 lt',p:'l',pr:1.99},
+  ]},
 ];
 
-const DAGEN = ['Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag','Zondag'];
-const HUISGENOTEN = ['Isa','Esmée','Jaco','Jacoline'];
-const AVATARBG = ['#B5D4F4','#9FE1CB','#F5C4B3','#F4C0D1'];
-const AVATARFG = ['#185FA5','#1D9E75','#D85A30','#D4537E'];
-const FIXED = {1:'Aardappelen', 3:'Aardappelen'};
+let S={cm:null,dl:0,menu:[],votes:Array(7).fill(null).map(()=>Array(4).fill(null)),props:Array(7).fill(null),chk:{},seizoen:null,ingOverrides:{},_ad:null,_as:null};
+(()=>{const n=new Date(),d=n.getDay(),s=new Date(n);s.setDate(n.getDate()+(d===0?7:7-d));s.setHours(23,59,0,0);S.dl=s.getTime();})();
 
-let S = {menu:[], akkoord:[], openSwap:null, currentUser:null, checked:{}, menuWeek:null};
+function sv(){try{localStorage.setItem('wm7',JSON.stringify({menu:S.menu.map(g=>g?g.n:null),votes:S.votes,props:S.props,dl:S.dl,chk:S.chk,ingOverrides:S.ingOverrides}));}catch(e){}}
+function ld(){try{const d=JSON.parse(localStorage.getItem('wm7')||'null');if(d){S.menu=(d.menu||[]).map(n=>GR.find(g=>g.n===n)||null);S.votes=d.votes||S.votes;S.props=d.props||S.props;S.dl=d.dl||S.dl;S.chk=d.chk||{};S.ingOverrides=d.ingOverrides||{};}}catch(e){}}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function isDone(d){return S.votes[d].every(v=>v===true);}
+function tdone(){return S.menu.reduce((n,_,d)=>n+(isDone(d)?1:0),0);}
+function wkn(){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()+3-(d.getDay()+6)%7);const w=new Date(d.getFullYear(),0,4);return 1+Math.round(((d-w)/86400000-3+(w.getDay()+6)%7)/7);}
+function pad(n){return String(n).padStart(2,'0');}
+function cdown(ms){if(ms<=0)return'00:00:00';const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000),s=Math.floor((ms%60000)/1000);return`${pad(h)}:${pad(m)}:${pad(s)}`;}
+function fmtdl(ts){return new Date(ts).toLocaleDateString('nl-NL',{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});}
+function toast(msg,dur=2800){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),dur);}
+function vi(d,mi){const p=S.props[d],v=S.votes[d][mi];if(v===true)return'✅';if(v===false&&!(p&&p.by===mi))return'❌';if(p&&p.by===mi&&!p.res)return'🔄';return'○';}
+function chkprop(d){const p=S.props[d];if(!p||p.res)return;const oth=MB.map((_,i)=>i===p.by?null:p.votes[i]);const fn=oth.filter(v=>v===true).length,an=oth.filter(v=>v===false).length;if(fn>=2){p.res='acc';const g=GR.find(x=>x.n===p.dish);if(g)S.menu[d]=g;S.votes[d]=Array(4).fill(null);MB.forEach((_,i)=>{if(i===p.by||p.votes[i]===true)S.votes[d][i]=true;});}else if(an>=2){p.res='rej';}}
+function chkAuto(){if(Date.now()>S.dl&&S.menu.length){S.votes=S.votes.map(dv=>dv.map(v=>v===null?true:v));sv();}}
 
-// --- Storage (localStorage fallback for GitHub Pages) ---
-function saveData() {
-  try { localStorage.setItem('weekmenu_v3', JSON.stringify({menu:S.menu.map(g=>g?g.id:null), akkoord:S.akkoord, menuWeek:S.menuWeek})); } catch(e){}
-}
-function loadData() {
-  try {
-    const d = JSON.parse(localStorage.getItem('weekmenu_v3')||'null');
-    if(d) {
-      S.menu = (d.menu||[]).map(id => GERECHTEN.find(g=>g.id===id)||null);
-      S.akkoord = d.akkoord||[];
-      S.menuWeek = d.menuWeek||null;
-    }
-  } catch(e){}
-}
-
-// --- Deadline logic ---
-function getWeekNr() {
-  const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()+3-(d.getDay()+6)%7);
-  const w=new Date(d.getFullYear(),0,4);
-  return 1+Math.round(((d-w)/86400000-3+(w.getDay()+6)%7)/7);
-}
-function getNextFriday() {
-  const now = new Date();
-  const day = now.getDay(); // 0=sun,1=mon,...,5=fri,6=sat
-  const daysUntilFriday = (5 - day + 7) % 7 || 7;
-  const fri = new Date(now);
-  fri.setDate(now.getDate() + daysUntilFriday);
-  fri.setHours(18,0,0,0);
-  return fri;
-}
-function getNextSunday2359() {
-  const fri = getNextFriday();
-  const sun = new Date(fri);
-  sun.setDate(fri.getDate() + 2);
-  sun.setHours(23,59,0,0);
-  return sun;
-}
-function formatDeadline(d) {
-  return d.toLocaleDateString('nl-NL',{weekday:'long',day:'numeric',month:'long'}) + ' om ' + d.toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'});
-}
-function getDeadlineStatus() {
-  const now = new Date();
-  const sun = getNextSunday2359();
-  const diff = sun - now;
-  const hours = diff / 3600000;
-  if(hours > 48) return {cls:'ok', msg:'⏰ Deadline: akkoord voor ' + formatDeadline(sun)};
-  if(hours > 12) return {cls:'warn', msg:'⚠️ Nog ' + Math.round(hours) + ' uur om akkoord te geven!'};
-  if(hours > 0) return {cls:'urgent', msg:'🔴 Deadline bijna verstreken! Nog ' + Math.round(hours) + ' uur.'};
-  return {cls:'ok', msg:'✅ Deadline verstreken — automatisch akkoord gegeven.'};
+function gp(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  document.querySelectorAll('.nlink').forEach(b=>b.classList.remove('cur'));
+  const map={'p-login':'nl-home','p-menu':'nl-menu','p-boodschappen':'nl-bood'};
+  if(map[id])document.getElementById(map[id]).classList.add('cur');
+  const bar=document.getElementById('abar');
+  bar.style.display=id==='p-menu'?'flex':'none';
+  if(id==='p-login')rLogin();
+  if(id==='p-menu')rMenu();
+  if(id==='p-boodschappen')rBood();
+  window.scrollTo(0,0);
 }
 
-function checkAutoAkkoord() {
-  const now = new Date();
-  const sun = getNextSunday2359();
-  if(now > sun && S.menu.length) {
-    HUISGENOTEN.forEach(h => { if(!S.akkoord.includes(h)) S.akkoord.push(h); });
-    saveData();
-  }
-}
-
-function renderDeadlineBanner(elId) {
-  const status = getDeadlineStatus();
-  const el = document.getElementById(elId);
-  if(el) el.innerHTML = `<div class="deadline-banner ${status.cls}">${status.msg}</div>`;
-}
-
-// --- Screens ---
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  if(id==='s-login') { checkAutoAkkoord(); renderLogin(); }
-  if(id==='s-menu') renderMenuScreen();
-  if(id==='s-boodschappen') renderBoodschappen();
-}
-
-function renderLogin() {
-  renderDeadlineBanner('deadline-login');
-  document.getElementById('profile-grid').innerHTML = HUISGENOTEN.map((naam,i)=>{
-    const ini = naam.slice(0,2).toUpperCase();
-    const done = S.akkoord.includes(naam);
-    return `<div class="profile-card ${done?'done':''}" onclick="selectUser('${naam}')">
-      <div class="avatar" style="background:${AVATARBG[i]};color:${AVATARFG[i]};">${ini}</div>
-      <div class="profile-name">${naam}</div>
-      <div class="profile-status">${done?'Akkoord gegeven ✓':'Tik om verder te gaan'}</div>
+function rLogin(){
+  document.getElementById('pgrid').innerHTML=MB.map((m,i)=>{
+    const done=S.votes.every(dv=>dv[m.id]===true);
+    return`<div class="pcard${done?' ok':''}" onclick="selUser(${m.id})">
+      <div class="pav" style="background:${m.c}">${m.i}</div>
+      <div class="pname">${esc(m.name)}</div>
+      <div class="pst">${done?'✓ Akkoord gegeven':'Tik om verder te gaan'}</div>
     </div>`;
   }).join('');
+  // Toon deelknop als er een menu is
+  const sb=document.getElementById('share-box');
+  if(sb)sb.style.display=S.menu.length?'block':'none';
 }
 
-function selectUser(naam) {
-  S.currentUser = naam;
-  document.getElementById('user-sub').textContent = naam;
-  document.getElementById('week-badge').textContent = 'Week ' + getWeekNr();
-  showScreen('s-menu');
+function shareLink(){
+  const url=window.location.href;
+  navigator.clipboard.writeText(url).then(()=>toast('🔗 Link gekopieerd! Plak hem in WhatsApp.')).catch(()=>toast('Kopieer de URL uit de adresbalk'));
 }
 
-// --- Generate menu ---
-async function generateMenu() {
-  document.getElementById('ai-thinking').style.display='flex';
-  document.getElementById('menu-body').style.opacity='0.3';
-  document.getElementById('ai-msg').textContent='AI stelt menu samen als voedingsdeskundige...';
+function shareWhatsApp(){
+  const wk=wkn();
+  let txt=`🍽️ *Weekmenu week ${wk} staat klaar!*\n\nOpen de app en geef akkoord:\n${window.location.href}\n\n`;
+  DAGEN.forEach((dag,i)=>{const g=S.menu[i];txt+=`${DEMOJI[i]} ${dag}: ${g?g.n:'–'}\n`;});
+  txt+=`\n_Deadline: zondag 23:59. Daarna automatisch akkoord._`;
+  const waUrl=`https://wa.me/?text=${encodeURIComponent(txt)}`;
+  window.open(waUrl,'_blank');
+}
+function selUser(id){S.cm=id;gp('p-menu');}
 
-  const maand = new Date().toLocaleString('nl-NL',{month:'long'});
-  const gerechtenTekst = GERECHTEN.map(g=>`${g.naam} (${g.cat}${g.vis?' - vis':g.vlees?' - vlees':' - vega'})`).join(', ');
+async function generateMenu(){
+  document.getElementById('aiov').classList.add('open');
+  const maand=new Date().toLocaleString('nl-NL',{month:'long'});
+  const lijst=GR.map(g=>g.n).join(', ');
+  const prompt=`Jij bent een erkende voedingsdeskundige. Stel een optimaal weekmenu op voor 4 volwassenen voor ${maand}.\n\nBeschikbare gerechten: ${lijst}\n\nVERPLICHT:\n- Dag 2 (dinsdag): categorie aardappelen\n- Dag 4 (donderdag): categorie aardappelen\n- Minimaal 2x vis per week\n- Minimaal 1x vegetarisch\n- Geen 2x dezelfde categorie achter elkaar\n- Zaterdag en zondag feestelijker\n- Seizoensgebonden voor ${maand}\n\nGeef ALLEEN een JSON array met 7 gerechtnamen (ma-zo). Niets anders.`;
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,messages:[{role:'user',content:prompt}]})});
+    const data=await r.json();
+    const txt=data.content[0].text.trim().replace(/```json|```/g,'').trim();
+    const namen=JSON.parse(txt);
+    S.menu=namen.map(naam=>GR.find(g=>g.n===naam)||null);
+    [1,3].forEach(idx=>{if(!S.menu[idx]||S.menu[idx].cat!=='aardappelen'){const used=S.menu.map((g,i)=>i!==idx&&g?g.n:null).filter(Boolean);const alt=GR.filter(g=>g.cat==='aardappelen'&&!used.includes(g.n));if(alt.length)S.menu[idx]=alt[0];}});
+  }catch(e){S.menu=lGen();toast('AI niet beschikbaar — menu lokaal gegenereerd');}
+  S.votes=Array(7).fill(null).map(()=>Array(4).fill(null));
+  S.props=Array(7).fill(null);
+  S.ingOverrides={};
+  sv();
+  document.getElementById('aiov').classList.remove('open');
+  rMenu();
+  // Show share tip
+  toast('✅ Menu klaar! Ga naar Home om de link te delen met de anderen.', 4000);
+}
 
-  const prompt = `Jij bent een erkende voedingsdeskundige. Stel een optimaal weekmenu op voor 4 volwassenen (Isa, Esmée, Jaco, Jacoline) voor de maand ${maand}.
+function lGen(){
+  const sh=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;};
+  const used=new Set(),res=new Array(7).fill(null);
+  const aard=sh(GR.filter(g=>g.cat==='aardappelen'));
+  res[1]=aard[0];used.add(aard[0].n);res[3]=aard[1]||aard[0];used.add(res[3].n);
+  [[0,'pasta'],[2,'rijst'],[4,'noodles'],[5,'overig'],[6,'rijst']].forEach(([slot,cat])=>{
+    const pool=sh(GR.filter(g=>g.cat===cat&&!used.has(g.n)));
+    const pick=pool[0]||sh(GR.filter(g=>!used.has(g.n)))[0];
+    if(pick){res[slot]=pick;used.add(pick.n);}
+  });
+  return res;
+}
 
-Beschikbare gerechten:
-${gerechtenTekst}
+function rMenu(){
+  chkAuto();
+  const done=tdone(),tot=7,pct=Math.round(done/tot*100),cm=S.cm;
+  const allDone=done===tot;
+  const akkNames=MB.filter(m=>S.votes.every(dv=>dv[m.id]===true));
+  document.getElementById('akc').textContent=akkNames.length;
+  document.getElementById('progfill').style.width=pct+'%';
+  document.getElementById('aklbl').textContent=akkNames.length===4?'Iedereen akkoord! 🎉':`${4-akkNames.length} nog niet akkoord`;
+  document.getElementById('akchips').innerHTML=MB.map(m=>{const ok=S.votes.every(dv=>dv[m.id]===true);return`<span class="chip${ok?' ok':''}">${ok?'✓ ':''}${esc(m.name)}</span>`;}).join('');
+  document.getElementById('menusub').textContent=cm!==null?`Ingelogd als ${MB[cm].name} — geef akkoord onderaan of stel een alternatief voor`:'Kies jouw profiel via Home.';
 
-VASTE REGELS (absoluut verplicht):
-- Dag 2 (dinsdag): MOET categorie Aardappelen zijn
-- Dag 4 (donderdag): MOET categorie Aardappelen zijn
+  if(!S.menu.length){
+    document.getElementById('dayslist').innerHTML=`<div style="text-align:center;padding:40px 20px;color:var(--muted)"><div style="font-size:2.5rem;margin-bottom:12px">🍽️</div><p style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;margin-bottom:6px">Nog geen menu</p><p style="font-size:.875rem">Klik op "Menu genereren" hierboven.</p></div>`;
+    document.getElementById('celebwrap').innerHTML='';
+    document.getElementById('akbtn').style.display='none';
+    document.getElementById('gen-menu-btn').style.display='inline-flex';
+    return;
+  }
+  document.getElementById('gen-menu-btn').style.display='none';
 
-VOEDINGSKUNDIGE REGELS:
-- Minimaal 2x vis per week (omega-3)
-- Minimaal 1x volledig vegetarisch
-- Maximaal 3x rood vlees per week
-- Afwisseling eiwitbronnen per dag (niet 2x kip achter elkaar)
-- Minimaal 1x peulvruchten of extra groente-rijke maaltijd
-- Geen 2x dezelfde categorie op rij
-- Zaterdag en zondag: iets feestelijker of comfortfood
-
-SEIZOENSADVIES (${maand}):
-- Gebruik seizoensgebonden groenten waar mogelijk
-
-Geef UITSLUITEND een JSON array met 7 gerechtnamen (ma t/m zo), exact zoals ze in de lijst staan. Niets anders.`;
-
-  try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({model:'claude-sonnet-4-20250514', max_tokens:500, messages:[{role:'user',content:prompt}]})
-    });
-    const data = await resp.json();
-    const txt = data.content[0].text.trim().replace(/```json|```/g,'').trim();
-    const namen = JSON.parse(txt);
-    S.menu = namen.map(naam => GERECHTEN.find(g=>g.naam===naam)||null);
-    // Safety: enforce fixed days
-    [1,3].forEach(idx => {
-      if(!S.menu[idx] || S.menu[idx].cat!=='Aardappelen') {
-        const used = S.menu.map((g,i)=>i!==idx&&g?g.id:null).filter(Boolean);
-        const alt = GERECHTEN.filter(g=>g.cat==='Aardappelen'&&!used.includes(g.id));
-        S.menu[idx] = alt[0] || GERECHTEN.find(g=>g.cat==='Aardappelen');
+  let h='';
+  for(let d=0;d<7;d++){
+    const g=S.menu[d];if(!g)continue;
+    const p=S.props[d],ci=CAT[g.cat]||CAT.overig,dd=isDone(d),hp=p&&!p.res,ds=DS[d];
+    h+=`<div class="dcard${dd?' done':hp?' prop':''}">`;
+    h+=`<div class="dhead"><div class="dpill" style="background:${ds.bg};color:${ds.c}">${DEMOJI[d]} ${DAGEN[d]}${FIXED[d]?' · AVG':''}</div><div class="dname">${esc(g.n)}</div></div>`;
+    h+=`<div class="tagrow"><span class="tag" style="background:${ci.bg};color:${ci.c}">${ci.e} ${ci.l}</span>${g.vis?'<span class="tag" style="background:#DDE8F5;color:#0E4D6B">🐟 Vis</span>':''}${g.vega?'<span class="tag" style="background:#D6EFE2;color:#2A5C45">🥗 Vega</span>':''}${dd?'<span class="tag" style="background:#D6EFE2;color:#2A5C45">✅ Akkoord</span>':''}</div>`;
+    h+=`<div class="mstatus">`;
+    MB.forEach((m,mi)=>{const ic=vi(d,mi),vt=ic!=='○';h+=`<div class="mchip" style="${vt?`background:${m.bg}`:''}"><div class="miniav" style="background:${m.c}">${m.i}</div><span>${vt?ic:'<span style="opacity:.35">○</span>'}</span><span style="color:${m.c};font-weight:500">${esc(m.name)}</span></div>`;});
+    h+=`</div>`;
+    if(cm!==null&&!dd&&!hp)h+=`<button class="altbtn" onclick="openAlt(${d})">🔄 Stel alternatief voor</button>`;
+    if(hp&&p.by!==cm&&p.votes[cm]===null&&cm!==null)h+=`<p style="font-size:.78rem;color:var(--amber);font-weight:500;margin-top:8px">👇 Stem op het alternatief hieronder</p>`;
+    if(p){
+      const pc=CAT[p.cat]||CAT.overig;
+      const fn=MB.filter((_,i)=>i!==p.by&&p.votes[i]===true).length;
+      const an=MB.filter((_,i)=>i!==p.by&&p.votes[i]===false).length;
+      h+=`<div class="propbox"><div class="prophdr">🔄 Alternatief door ${esc(MB[p.by].name)}</div><div class="propdish">${pc.e} ${esc(p.dish)}</div>`;
+      if(p.res){h+=`<span class="rchip ${p.res==='acc'?'racc':'rrej'}">${p.res==='acc'?'✅ Aangenomen!':'❌ Afgewezen.'}</span>`;}
+      else{
+        h+=`<div class="vrow">`;
+        MB.forEach((m,mi)=>{if(mi===p.by)return;const pv=p.votes[mi],im=cm===mi;h+=`<div class="vitem"><div class="miniav" style="background:${m.c}">${m.i}</div><span style="font-weight:500;color:${m.c}">${esc(m.name)}:</span>`;if(pv===null&&im){h+=`<button class="vsm vfor" onclick="vProp(${d},true)">👍</button><button class="vsm vag" onclick="vProp(${d},false)">👎</button>`;}else if(pv===true)h+=`<span class="vsm vfor on">👍</span>`;else if(pv===false)h+=`<span class="vsm vag on">👎</span>`;else h+=`<span style="font-size:.72rem;color:var(--faint)">⏳</span>`;h+=`</div>`;});
+        h+=`</div><div class="ptally">👍 ${fn}/3 voor · 👎 ${an}/3 tegen · <em>Aangenomen bij ≥ 2</em></div>`;
       }
-    });
-    S.akkoord = [];
-    S.menuWeek = getWeekNr();
-    saveData();
-  } catch(e) {
-    S.menu = localGenerate();
-    S.akkoord = [];
-    S.menuWeek = getWeekNr();
-    saveData();
-    showToast('AI niet beschikbaar — lokaal menu gegenereerd');
+      h+=`</div>`;
+    }
+    h+=`</div>`;
   }
+  document.getElementById('dayslist').innerHTML=h;
 
-  document.getElementById('ai-thinking').style.display='none';
-  document.getElementById('menu-body').style.opacity='1';
-  renderMenuScreen();
+  if(allDone){
+    document.getElementById('celebwrap').innerHTML=`<div class="celeb"><div class="big">🎉</div><h2>Weekmenu goedgekeurd!</h2><p>Alle 4 huisgenoten zijn akkoord voor week ${wkn()}.</p><button class="gobtn" onclick="gp('p-boodschappen')">Ga naar boodschappenlijst →</button></div>`;
+  }else{document.getElementById('celebwrap').innerHTML='';}
+
+  const ab=document.getElementById('akbtn');
+  if(cm!==null){
+    const myok=S.votes.every(dv=>dv[cm]===true);
+    ab.style.display='inline-flex';
+    ab.textContent=myok?'✓ Jij bent akkoord':'Ik ben akkoord';
+    ab.className='akbtn'+(myok?' already':'');
+    ab.disabled=myok;
+  }else{ab.style.display='none';}
 }
 
-function localGenerate() {
-  const shuffle = arr => {const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
-  const used = new Set();
-  const result = new Array(7).fill(null);
-  const aard = shuffle(GERECHTEN.filter(g=>g.cat==='Aardappelen'));
-  result[1]=aard[0];used.add(aard[0].id);
-  result[3]=aard[1]||aard[0];used.add(result[3].id);
-  const plan = [[0,'Pasta'],[2,'Rijst'],[4,'Noodles'],[5,'Overig'],[6,'Rijst']];
-  plan.forEach(([slot,cat])=>{
-    const pool = shuffle(GERECHTEN.filter(g=>g.cat===cat&&!used.has(g.id)));
-    const pick = pool[0] || shuffle(GERECHTEN.filter(g=>!used.has(g.id)))[0] || GERECHTEN[0];
-    result[slot]=pick; used.add(pick.id);
-  });
-  return result;
+function giveAkkoord(){
+  if(S.cm===null){toast('Kies eerst jouw profiel via Home');return;}
+  for(let d=0;d<7;d++){const p=S.props[d];if(p&&!p.res&&p.by!==S.cm&&p.votes[S.cm]===null){toast(`⚠️ Stem eerst op het alternatief voor ${DAGEN[d]}!`);return;}}
+  S.votes.forEach(dv=>{if(dv[S.cm]===null)dv[S.cm]=true;});
+  sv();toast(`✅ Akkoord gegeven door ${MB[S.cm].name}!`);
+  rMenu();
+  if(MB.every(m=>S.votes.every(dv=>dv[m.id]===true)))setTimeout(()=>gp('p-boodschappen'),1200);
 }
 
-// --- Render menu ---
-function renderMenuScreen() {
-  checkAutoAkkoord();
-  renderDeadlineBanner('deadline-menu');
-  if(!S.menu.length) { generateMenu(); return; }
+function vProp(d,a){
+  if(S.cm===null)return;const p=S.props[d];if(!p||p.by===S.cm||p.res)return;
+  p.votes[S.cm]=a;chkprop(d);
+  if(p.res==='acc')toast(`✅ "${p.dish}" aangenomen!`);
+  else if(p.res==='rej')toast('❌ Alternatief afgewezen.');
+  else toast(a?'👍 Akkoord met alternatief':'👎 Nee, houd origineel');
+  sv();rMenu();
+}
 
-  const total = 4, akk = S.akkoord.length, allDone = akk >= total;
-  document.getElementById('akk-count').textContent = akk;
-  document.getElementById('prog-fill').style.width = (akk/total*100)+'%';
-  document.getElementById('akk-label').textContent = allDone ? 'Menu bevestigd! 🎉' : `${total-akk} nog niet akkoord`;
-  document.getElementById('akk-chips').innerHTML = HUISGENOTEN.map(h=>
-    `<span class="chip ${S.akkoord.includes(h)?'ok':''}">${S.akkoord.includes(h)?'✓ ':''} ${h}</span>`
-  ).join('');
-  document.getElementById('btn-akk').style.display = S.akkoord.includes(S.currentUser)?'none':'inline-flex';
-  document.getElementById('btn-boodschappen').style.display = allDone?'inline-flex':'none';
+function openAlt(d){if(S.cm===null){toast('Kies eerst jouw profiel!');return;}if(S.props[d]&&!S.props[d].res){toast('Er staat al een voorstel open.');return;}S._ad=d;S._as=null;rAltMod();document.getElementById('altov').classList.add('open');}
+function closeAlt(){document.getElementById('altov').classList.remove('open');}
+function rAltMod(){
+  const d=S._ad,g=S.menu[d];
+  let h=`<div class="mtitle">Alternatief voor ${DAGEN[d]}</div><div class="msub">Huidig: <em>${esc(g.n)}</em></div><div class="altlist">`;
+  GR.filter(x=>x.n!==g.n).forEach((alt,i)=>{const ci=CAT[alt.cat]||CAT.overig;h+=`<div class="altitem${S._as===i?' sel':''}" onclick="pickAlt(${i})"><span style="font-size:1.2rem">${ci.e}</span><div><div class="ainame">${esc(alt.n)}</div><span class="tag" style="background:${ci.bg};color:${ci.c};font-size:.68rem">${ci.l}</span></div>${S._as===i?'<span class="aicheck">✓</span>':''}</div>`;});
+  h+=`</div><div class="mfoot"><button class="btn btncx" onclick="closeAlt()">Annuleren</button><button class="btn btnok" onclick="subAlt()" ${S._as===null?'disabled':''}>Voorstel indienen →</button></div>`;
+  document.getElementById('altmod').innerHTML=h;
+}
+function pickAlt(i){S._as=i;rAltMod();}
+function subAlt(){if(S._as===null)return;const alt=GR.filter(x=>x.n!==S.menu[S._ad].n)[S._as];S.props[S._ad]={by:S.cm,dish:alt.n,cat:alt.cat,votes:Array(4).fill(null),res:null};S.props[S._ad].votes[S.cm]=true;S.votes[S._ad][S.cm]=false;closeAlt();toast('🔄 Voorstel ingediend!');sv();rMenu();}
 
-  document.getElementById('days-list').innerHTML = DAGEN.map((dag,i)=>{
-    const g = S.menu[i]; if(!g) return '';
-    const isFixed = FIXED[i]!==undefined;
-    const tags = [
-      g.groente&&'<span class="nutri-tag">Groente</span>',
-      g.vis&&'<span class="nutri-tag vis">Vis</span>',
-      g.vlees&&'<span class="nutri-tag">Vlees</span>',
-      (!g.vlees&&!g.vis)&&'<span class="nutri-tag vega">Vega</span>',
-      g.seizoen&&`<span class="nutri-tag seizoen">Seizoen</span>`
-    ].filter(Boolean).join('');
-    const isOpen = S.openSwap===i;
-    const swapPool = isFixed ? GERECHTEN.filter(x=>x.cat==='Aardappelen'&&x.id!==g.id) : GERECHTEN.filter(x=>x.id!==g.id);
-    const opts = swapPool.map(x=>`<div class="swap-opt" onclick="swapDay(${i},${x.id})">${x.naam}</div>`).join('');
-    return `<div class="day-card ${isFixed?'avg':''}">
-      <div class="day-header">
-        <span class="day-label">${dag}</span>
-        <span class="day-meal">${g.naam}</span>
-        <span class="cat-badge cat-${g.cat}">${g.cat}</span>
-        ${isFixed?'<span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--green-light);color:var(--green-dark);">AVG</span>':''}
-        <button class="edit-btn" onclick="toggleSwap(${i})">${isOpen?'Sluit':'Wissel'}</button>
+function openDl(){const dt=new Date(S.dl),p2=n=>String(n).padStart(2,'0');document.getElementById('dlinput').value=`${dt.getFullYear()}-${p2(dt.getMonth()+1)}-${p2(dt.getDate())}T${p2(dt.getHours())}:${p2(dt.getMinutes())}`;document.getElementById('dlov').classList.add('open');}
+function closeDl(){document.getElementById('dlov').classList.remove('open');}
+function saveDl(){const v=document.getElementById('dlinput').value;if(v)S.dl=new Date(v).getTime();closeDl();sv();toast('Deadline opgeslagen');}
+
+async function fetchSeizoensfruit(){
+  if(S.seizoen)return S.seizoen;
+  const maand=new Date().toLocaleString('nl-NL',{month:'long'});
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:300,messages:[{role:'user',content:`Als voedingsdeskundige en seizoensexpert: welke 3-4 seizoensgebonden fruitsoorten en 1-2 groenten zijn er in ${maand} verkrijgbaar in Nederland? Geef ALLEEN een JSON array van objecten met {n: naam, q: hoeveelheid, pr: gemiddelde prijs in euros als getal}. Geen uitleg. Voorbeeld: [{"n":"Aardbeien","q":"500 g","pr":2.99}]`}]})});
+    const data=await r.json();
+    const txt=data.content[0].text.trim().replace(/```json|```/g,'').trim();
+    S.seizoen=JSON.parse(txt).map(x=>({...x,p:'m'}));
+  }catch(e){
+    const maand2=new Date().getMonth();
+    const fallback=[
+      [{n:'Mandarijnen',q:'1 kg',p:'m',pr:2.49},{n:'Appelsienen',q:'1 kg',p:'l',pr:1.99}],
+      [{n:'Kiwi\'s',q:'6 st',p:'l',pr:1.79},{n:'Bloedsinaasappel',q:'1 kg',p:'m',pr:2.29}],
+      [{n:'Rabarber',q:'500 g',p:'m',pr:2.19},{n:'Aardbei (eerste)',q:'250 g',p:'m',pr:2.99}],
+      [{n:'Aardbeien',q:'500 g',p:'l',pr:2.49},{n:'Asperges',q:'500 g',p:'h',pr:4.99}],
+      [{n:'Aardbeien',q:'500 g',p:'l',pr:1.99},{n:'Kersen',q:'500 g',p:'m',pr:3.49}],
+      [{n:'Kersen',q:'500 g',p:'m',pr:2.99},{n:'Abrikozen',q:'500 g',p:'m',pr:2.49}],
+      [{n:'Perziken',q:'4 st',p:'m',pr:2.49},{n:'Nectarines',q:'4 st',p:'m',pr:2.29}],
+      [{n:'Pruimen',q:'500 g',p:'m',pr:2.19},{n:'Meloenen',q:'1 st',p:'m',pr:2.99}],
+      [{n:'Druiven (blauw)',q:'500 g',p:'m',pr:2.49},{n:'Vijgen',q:'4 st',p:'m',pr:2.79}],
+      [{n:'Appels (Jonagold)',q:'1 kg',p:'l',pr:1.99},{n:'Peren',q:'1 kg',p:'l',pr:1.79}],
+      [{n:'Clementines',q:'1 kg',p:'l',pr:2.29},{n:'Granaatappel',q:'2 st',p:'m',pr:2.49}],
+      [{n:'Mandarijnen',q:'1 kg',p:'l',pr:1.99},{n:'Sinaasappels',q:'1 kg',p:'l',pr:1.79}],
+    ];
+    S.seizoen=fallback[maand2]||fallback[0];
+  }
+  return S.seizoen;
+}
+
+async function rBood(){
+  document.getElementById('bwk').textContent=wkn();
+
+  // ── Weekoverzicht per dag (bewerkbaar) ──
+  const ds2=DS;
+  let ov='';
+  DAGEN.forEach((dag,i)=>{
+    const g=S.menu[i];if(!g)return;
+    const d2=ds2[i];
+    const ingList=(S.ingOverrides[i]||g.ing).map(x=>x.n);
+    const ingStr=ingList.join(' · ');
+    ov+=`<div class="dag-row" id="dagrow-${i}">
+      <div class="dag-header" onclick="toggleDagEdit(${i})">
+        <div class="dag-pill-sm" style="background:${d2.bg};color:${d2.c}">${DEMOJI[i]} ${dag}</div>
+        <div class="dag-info">
+          <div class="dag-title">${esc(g.n)}</div>
+          <div class="dag-ing-preview" id="dag-preview-${i}">${esc(ingStr)}</div>
+        </div>
+        <div class="dag-chevron" id="dag-chevron-${i}">›</div>
       </div>
-      <div class="nutri-row">${tags}</div>
-      <div class="swap-area ${isOpen?'open':''}">
-        <p style="font-size:12px;color:var(--text-faint);margin-bottom:6px;">${isFixed?'Kies een ander aardappelgerecht:':'Kies een ander gerecht:'}</p>
-        <div class="swap-grid">${opts}</div>
+      <div class="dag-edit" id="dag-edit-${i}" style="display:none;">
+        <div class="dag-edit-list" id="dag-ing-list-${i}">
+          ${(S.ingOverrides[i]||g.ing).map((item,j)=>`
+            <div class="dag-ing-item" id="dii-${i}-${j}">
+              <input class="dag-ing-input" value="${esc(item.n)}" onchange="updateIng(${i},${j},this.value)" placeholder="Ingrediënt">
+              <input class="dag-qty-input" value="${esc(item.q)}" onchange="updateQty(${i},${j},this.value)" placeholder="Hoeveelheid">
+              <button class="dag-del-btn" onclick="delIng(${i},${j})">×</button>
+            </div>`).join('')}
+        </div>
+        <button class="dag-add-btn" onclick="addIng(${i})">+ Ingrediënt toevoegen</button>
       </div>
     </div>`;
-  }).join('');
-}
+  });
+  document.getElementById('week-overzicht-items').innerHTML=ov||'<p style="font-size:.85rem;color:var(--faint)">Nog geen menu gegenereerd.</p>';
 
-function toggleSwap(i) { S.openSwap = S.openSwap===i?null:i; renderMenuScreen(); }
-
-function swapDay(dayIdx, gid) {
-  S.menu[dayIdx] = GERECHTEN.find(g=>g.id===gid);
-  S.akkoord = []; S.openSwap = null;
-  saveData(); renderMenuScreen();
-  showToast('Gerecht gewisseld — akkoorden gereset');
-}
-
-function giveAkkoord() {
-  if(!S.akkoord.includes(S.currentUser)) S.akkoord.push(S.currentUser);
-  saveData(); renderMenuScreen();
-  const left = 4 - S.akkoord.length;
-  if(left===0) showToast('Iedereen akkoord! Boodschappenlijst staat klaar 🎉');
-  else showToast(`Akkoord gegeven! Nog ${left} huisgenoot${left!==1?'en':''}.`);
-}
-
-// --- Boodschappen ---
-function renderBoodschappen() {
-  // Collect ingredients, merge duplicates
-  const ingMap = {};
-  (S.menu||[]).forEach((g,i)=>{
-    if(!g) return;
-    g.ing.forEach(item=>{
-      if(!ingMap[item.n]) ingMap[item.n] = {qty:item.qty, prijs:item.prijs, dagen:[]};
-      ingMap[item.n].dagen.push(DAGEN[i].slice(0,2));
+  // ── Avondeten: gebruik overrides als die bestaan ──
+  const im={};
+  S.menu.forEach((g,i)=>{
+    if(!g)return;
+    const ing=S.ingOverrides[i]||g.ing;
+    ing.forEach(item=>{
+      if(!item.n||item.n.toLowerCase()==='beleg naar keuze')return;
+      if(!im[item.n])im[item.n]={q:item.q||'',p:item.p||'l',pr:item.p==='h'?5.5:item.p==='m'?3.0:1.5};
     });
   });
+  BCATS[0].items=Object.entries(im).map(([n,v])=>({n,q:v.q,p:v.p,pr:v.pr}));
 
-  let html = `<div class="sec-label">Van het weekmenu</div>`;
-  html += Object.entries(ingMap).map(([naam,data])=>{
-    const id = 'bc_'+naam.replace(/\W/g,'');
-    const ch = S.checked[id];
-    return `<div class="boodschap-item ${ch?'done':''}">
-      <div class="check-c ${ch?'on':''}" onclick="toggleCheck('${id}',this.parentElement)"></div>
-      <div class="price-dot price-${data.prijs}"></div>
-      <span class="item-name">${naam}</span>
-      <span class="item-qty">${data.qty}</span>
+  // ── Seizoensfruit ──
+  const sz=await fetchSeizoensfruit();
+  const frCat=BCATS.find(c=>c.key==='fr');
+  frCat.items=frCat.items.filter(i=>!i._seizoen);
+  sz.forEach(item=>frCat.items.push({...item,_seizoen:true}));
+
+  let h='';let grandTotal=0;
+  BCATS.forEach(cat=>{
+    if(!cat.items.length)return;
+    const catTotal=cat.items.reduce((s,i)=>s+(i.pr||0),0);
+    grandTotal+=catTotal;
+    h+=`<div class="bcat"><div class="bcattitle">${cat.label}</div>`;
+    cat.items.forEach((item,idx)=>{
+      const id=`b_${cat.key}_${idx}`,ch=S.chk[id];
+      const pc=item.p==='l'?'pl':item.p==='m'?'pm':'ph2';
+      const prStr=item.pr?`€${item.pr.toFixed(2)}`:'';
+      h+=`<div class="bitem${ch?' done':''}">
+        <div class="cc${ch?' on':''}" onclick="tChk('${id}',this)"></div>
+        <div class="pd ${pc}"></div>
+        <span class="bn">${item.n}${item._seizoen?' 🌱':''}</span>
+        <span class="bq" style="display:flex;gap:8px;align-items:center;">
+          <span style="color:var(--faint);font-size:.72rem">${item.q}</span>
+          ${prStr?`<span style="font-weight:500;color:var(--ink);font-size:.78rem">${prStr}</span>`:''}
+        </span>
+      </div>`;
+    });
+    h+=`<div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
+      <span style="font-size:.75rem;color:var(--faint)">Geschat totaal</span>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--green)">€${catTotal.toFixed(2)}</span>
+    </div></div>`;
+  });
+  document.getElementById('bgrid').innerHTML=h;
+
+  document.getElementById('grandtotal').innerHTML=`
+    <div style="background:var(--ink);color:#fff;border-radius:var(--r);padding:18px 22px;margin-top:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+      <div>
+        <div style="font-size:.75rem;opacity:.6;margin-bottom:3px">Geschat weekbudget boodschappen</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:.9rem;font-weight:400;opacity:.55;font-style:italic">Indicatief — AH/Jumbo gemiddeld</div>
+      </div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700">€${grandTotal.toFixed(2)}</div>
     </div>`;
-  }).join('');
-
-  html += `<div class="sec-label" style="margin-top:16px;">Vaste producten</div>`;
-  html += VAST.map((item,idx)=>{
-    const id = 'bv_'+idx;
-    const ch = S.checked[id];
-    return `<div class="boodschap-item ${ch?'done':''}">
-      <div class="check-c ${ch?'on':''}" onclick="toggleCheck('${id}',this.parentElement)"></div>
-      <div class="price-dot price-${item.prijs}"></div>
-      <span class="item-name">${item.n}</span>
-      <span class="item-qty">${item.qty}</span>
-    </div>`;
-  }).join('');
-
-  document.getElementById('boodschappen-list').innerHTML = html;
 }
 
-function toggleCheck(id, row) {
-  S.checked[id] = !S.checked[id];
-  row.classList.toggle('done', S.checked[id]);
-  row.querySelector('.check-c').classList.toggle('on', S.checked[id]);
+// ── Dag-edit functies ──
+function toggleDagEdit(i){
+  const el=document.getElementById(`dag-edit-${i}`);
+  const ch=document.getElementById(`dag-chevron-${i}`);
+  const open=el.style.display==='none';
+  el.style.display=open?'block':'none';
+  ch.style.transform=open?'rotate(90deg)':'rotate(0deg)';
 }
 
-function copyWA() {
-  let txt = `🛒 *Boodschappenlijst week ${getWeekNr()}*\n\n📅 *Weekmenu*\n`;
-  DAGEN.forEach((d,i)=>{ const g=S.menu[i]; txt+=d+': '+(g?g.naam:'–')+'\n'; });
-  txt += '\n🥦 *Ingrediënten (4 pers.)*\n';
-  const ingMap = {};
-  (S.menu||[]).forEach(g=>{ if(g) g.ing.forEach(item=>{ ingMap[item.n]=item.qty; }); });
-  Object.entries(ingMap).forEach(([n,q])=>txt+=`• ${n} — ${q}\n`);
-  txt += '\n🏠 *Vaste producten*\n';
-  VAST.forEach(item=>txt+=`• ${item.n} — ${item.qty}\n`);
-  txt += '\n🛍️ Aanbiedingen checken:\nAH: https://www.ah.nl/bonus\nJumbo: https://www.jumbo.com/aanbiedingen';
-  navigator.clipboard.writeText(txt).then(()=>showToast('Gekopieerd voor WhatsApp!')).catch(()=>showToast('Kopiëren mislukt'));
+function getIng(i){
+  const g=S.menu[i];if(!g)return[];
+  return S.ingOverrides[i]||(S.ingOverrides[i]=[...g.ing.map(x=>({...x}))],S.ingOverrides[i]);
 }
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.style.display='block';
-  setTimeout(()=>t.style.display='none', 2800);
+function updateIng(i,j,val){
+  const ing=getIng(i);if(!ing[j])return;
+  ing[j].n=val.trim();
+  sv();refreshDagPreview(i);rBood();
 }
 
-// --- Init ---
-loadData();
-renderLogin();
+function updateQty(i,j,val){
+  const ing=getIng(i);if(!ing[j])return;
+  ing[j].q=val.trim();
+  sv();
+}
 
-// Refresh deadline banner every minute
-setInterval(()=>{ if(document.getElementById('s-login').classList.contains('active')) renderDeadlineBanner('deadline-login'); }, 60000);
+function delIng(i,j){
+  const ing=getIng(i);
+  ing.splice(j,1);
+  sv();rBood();
+  toast('Ingrediënt verwijderd');
+}
+
+function addIng(i){
+  const ing=getIng(i);
+  ing.push({n:'',q:'',p:'l',pr:1.5});
+  sv();rBood();
+  // Focus the new input after render
+  setTimeout(()=>{
+    const list=document.getElementById(`dag-ing-list-${i}`);
+    if(list){const inputs=list.querySelectorAll('.dag-ing-input');if(inputs.length)inputs[inputs.length-1].focus();}
+    document.getElementById(`dag-edit-${i}`).style.display='block';
+    document.getElementById(`dag-chevron-${i}`).style.transform='rotate(90deg)';
+  },50);
+}
+
+function refreshDagPreview(i){
+  const el=document.getElementById(`dag-preview-${i}`);
+  if(!el)return;
+  const ing=getIng(i);
+  el.textContent=ing.map(x=>x.n).filter(Boolean).join(' · ');
+}
+
+function tChk(id,el){S.chk[id]=!S.chk[id];const r=el.closest('.bitem');r.classList.toggle('done',S.chk[id]);el.classList.toggle('on',S.chk[id]);sv();}
+
+function copyMenu(){
+  const wk=wkn();
+  let txt=`🍽️ *Weekmenu — Week ${wk}*\n\n`;
+  DAGEN.forEach((dag,i)=>{const g=S.menu[i];txt+=`${DEMOJI[i]} ${dag}: ${g?g.n:'–'}\n`;});
+  navigator.clipboard.writeText(txt).then(()=>toast('📋 Weekmenu gekopieerd voor WhatsApp!')).catch(()=>toast('Kopiëren mislukt'));
+}
+
+function updNav(){
+  document.getElementById('nw').textContent=`Week ${wkn()}`;
+  document.getElementById('nm').textContent=new Date().toLocaleString('nl-NL',{month:'long'});
+}
+
+setInterval(()=>{
+  const left=S.dl-Date.now(),el=document.getElementById('ntimer');
+  if(!el)return;
+  el.textContent=(left<=0?'⏰ ':' ⏳ ')+cdown(left);
+  el.classList.toggle('exp',left<=0);
+},1000);
+
+ld();updNav();rLogin();
 </script>
 </body>
 </html>
